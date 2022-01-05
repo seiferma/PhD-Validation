@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CLI Application
+Bundle-SymbolicName: edu.kit.kastel.dsis.seifermann.phd.validation.application;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: edu.kit.kastel.dsis.seifermann.phd.validation.application.internal.Activator
+Require-Bundle: org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: edu.kit.kastel.dsis.seifermann.phd.validation.application
+Bundle-ActivationPolicy: lazy
