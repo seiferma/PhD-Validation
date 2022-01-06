@@ -14,5 +14,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build using maven docker image
-      run: docker run --rm -v ${{ github.workspace }}:/tmp/ws -w /tmp/ws maven:3.8.4-openjdk-11 mvn clean verify
+    
+    - name: Setup Java JDK
+      uses: actions/setup-java@v2.5.0
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: 'maven'
+        
+    - name: Build using maven
+      run: mvn clean verify
