@@ -1,7 +1,9 @@
 package edu.kit.kastel.dsis.seifermann.phd.validation.application.dto;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Map;
+import java.util.TreeMap;
 
 import edu.kit.kastel.dsis.seifermann.phd.validation.models.ConfidentialityMechanism;
 
@@ -51,35 +53,35 @@ public class DFDSyntaxValidationResult implements Serializable {
     }
 
     public Map<String, Double> getVm31_raw() {
-        return vm31_raw;
+        return Collections.unmodifiableMap(vm31_raw);
     }
 
     public void setVm31_raw(Map<String, Double> vm31_raw) {
-        this.vm31_raw = vm31_raw;
+        this.vm31_raw = new TreeMap<>(vm31_raw);
     }
 
     public Map<ConfidentialityMechanism, RatioDTO> getVm11_raw() {
-        return vm11_raw;
+        return Collections.unmodifiableMap(vm11_raw);
     }
 
     public void setVm11_raw(Map<ConfidentialityMechanism, RatioDTO> vm11_raw) {
-        this.vm11_raw = vm11_raw;
+        this.vm11_raw = new TreeMap<>(vm11_raw);
     }
 
     public Map<ConfidentialityMechanism, RatioDTO> getVm12_raw() {
-        return vm12_raw;
+        return Collections.unmodifiableMap(vm12_raw);
     }
 
     public void setVm12_raw(Map<ConfidentialityMechanism, RatioDTO> vm12_raw) {
-        this.vm12_raw = vm12_raw;
+        this.vm12_raw = new TreeMap<>(vm12_raw);
     }
 
     public Map<ConfidentialityMechanism, RatioDTO> getVm21_raw() {
-        return vm21_raw;
+        return Collections.unmodifiableMap(vm21_raw);
     }
 
     public void setVm21_raw(Map<ConfidentialityMechanism, RatioDTO> vm21_raw) {
-        this.vm21_raw = vm21_raw;
+        this.vm21_raw = new TreeMap<>(vm21_raw);
     }
 
 }
