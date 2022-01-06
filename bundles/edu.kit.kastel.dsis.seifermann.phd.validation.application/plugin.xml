@@ -3,6 +3,7 @@
 <plugin>
    <extension
          id="default"
+         name="PhD-Default"
          point="org.eclipse.core.runtime.applications">
       <application
             cardinality="singleton-global"

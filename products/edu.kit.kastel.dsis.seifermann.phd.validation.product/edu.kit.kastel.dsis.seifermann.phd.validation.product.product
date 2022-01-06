@@ -41,6 +41,7 @@
       <plugin id="de.uka.ipd.sdq.workflow.logging.console"/>
       <plugin id="de.uka.ipd.sdq.workflow.mdsd.blackboard"/>
       <plugin id="edu.kit.kastel.dsis.seifermann.phd.validation.application"/>
+      <plugin id="edu.kit.kastel.dsis.seifermann.phd.validation.models"/>
       <plugin id="io.github.classgraph"/>
       <plugin id="javax.annotation"/>
       <plugin id="javax.inject"/>
@@ -132,6 +133,7 @@
       <plugin id="org.eclipse.osgi.compatibility.state" fragment="true"/>
       <plugin id="org.eclipse.osgi.services"/>
       <plugin id="org.eclipse.osgi.util"/>
+      <plugin id="org.eclipse.sdk"/>
       <plugin id="org.eclipse.swt"/>
       <plugin id="org.eclipse.swt.gtk.linux.x86_64" fragment="true"/>
       <plugin id="org.eclipse.text"/>
