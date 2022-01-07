@@ -2,7 +2,8 @@ package edu.kit.kastel.dsis.seifermann.phd.validation.models;
 
 public enum ConfidentialityMechanism {
     NonInterferenceLinear("Non-Interference Linear", ConfidentialityMechanismCategory.InformationFlow),
-    NonInterferenceArbitrary("Non-Interference Arbitrary", ConfidentialityMechanismCategory.InformationFlow),
+    NonInterferenceLinearWithEncryption("Non-Interference Linear with Encryption", ConfidentialityMechanismCategory.InformationFlow),
+    NonInterferenceArbitraryWithEncryption("Non-Interference Arbitrary with Encryption", ConfidentialityMechanismCategory.InformationFlow),
     NonInterferenceTenant("Non-Interference Tenant", ConfidentialityMechanismCategory.InformationFlow),
     DAC("DAC", ConfidentialityMechanismCategory.AccessControl),
     MAC_Military("MAC Military Model", ConfidentialityMechanismCategory.AccessControl),

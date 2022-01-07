@@ -18,7 +18,9 @@ public class DFDModelIndex {
 
     public static Collection<DFDModel> getModelList(boolean onlyWithModel) {
         if (onlyWithModel) {
-            return MODELS.stream().filter(DFDModel::hasModel).collect(Collectors.toList());
+            return MODELS.stream()
+                .filter(DFDModel::hasModel)
+                .collect(Collectors.toList());
         }
         return MODELS;
     }
@@ -34,33 +36,37 @@ public class DFDModelIndex {
                 createDFDModel(3, "ContactSMS", ConfidentialityMechanism.NonInterferenceLinear, "contactsms",
                         "DFDC_ContactSMS_InformationFlow.xmi", "DFDC_ContactSMS_InformationFlow_WithIssue.xmi",
                         "ContactSMS-InformationFlow.svg"),
-                createDFDModel(4, "PrivateTaxi", ConfidentialityMechanism.NonInterferenceArbitrary, "privatetaxi",
-                        "privatetaxi_dfd.xmi", "privatetaxi_dfd_withIssue.xmi", "PrivateTaxi.svg"),
+                createDFDModel(4, "PrivateTaxi", ConfidentialityMechanism.NonInterferenceArbitraryWithEncryption,
+                        "privatetaxi", "privatetaxi_dfd.xmi", "privatetaxi_dfd_withIssue.xmi", "PrivateTaxi.svg"),
                 createDFDModel(5, "BankingApp", ConfidentialityMechanism.NonInterferenceTenant),
-                createDFDModel(6, "FriendMap", ConfidentialityMechanism.NonInterferenceLinear, "friendmap",
-                        "DFDC_FriendMapAlternative.xmi", "DFDC_FriendMap.xmi", "FriendMap.svg"),
-                createDFDModel(7, "Hospital", ConfidentialityMechanism.NonInterferenceLinear, "hospital",
+                createDFDModel(6, "FriendMap", ConfidentialityMechanism.NonInterferenceLinearWithEncryption,
+                        "friendmap", "DFDC_FriendMapAlternative.xmi", "DFDC_FriendMap.xmi", "FriendMap.svg"),
+                createDFDModel(7, "Hospital", ConfidentialityMechanism.NonInterferenceLinearWithEncryption, "hospital",
                         "DFDC_HospitalAlternative.xmi", "DFDC_Hospital.xmi", "Hospital.svg"),
-                createDFDModel(8, "JPMail", ConfidentialityMechanism.NonInterferenceLinear, "jpmail",
+                createDFDModel(8, "JPMail", ConfidentialityMechanism.NonInterferenceLinearWithEncryption, "jpmail",
                         "DFDC_JPMail.xmi", "DFDC_JPMail_WithIssue.xmi", "JPMail.svg"),
-                createDFDModel(9, "WebRTC", ConfidentialityMechanism.NonInterferenceLinear, "webrtc",
+                createDFDModel(9, "WebRTC", ConfidentialityMechanism.NonInterferenceLinearWithEncryption, "webrtc",
                         "DFDC_WebRTC.xmi", "DFDC_WebRTC_WithIssue.xmi", "WebRTC.svg"),
                 createDFDModel(10, "TravelPlanner", ConfidentialityMechanism.RBAC, "travelplanner",
-                        "DFDC_TravelPlanner_AccessControl.xmi", "DFDC_TravelPlanner_AccessControl_WithIssue.xmi", "TravelPlanner_AccessControl.svg"),
+                        "DFDC_TravelPlanner_AccessControl.xmi", "DFDC_TravelPlanner_AccessControl_WithIssue.xmi",
+                        "TravelPlanner_AccessControl.svg"),
                 createDFDModel(11, "DistanceTracker", ConfidentialityMechanism.RBAC, "distancetracker",
-                        "DFDC_DistanceTracker_AccessControl.xmi", "DFDC_DistanceTracker_AccessControl_Withissue.xmi", "DistanceTracker-AccessControl.svg"),
+                        "DFDC_DistanceTracker_AccessControl.xmi", "DFDC_DistanceTracker_AccessControl_Withissue.xmi",
+                        "DistanceTracker-AccessControl.svg"),
                 createDFDModel(12, "ContactSMS", ConfidentialityMechanism.RBAC, "contactsms",
-                        "DFDC_ContactSMS_AccessControl.xmi", "DFDC_ContactSMS_AccessControl_WithIssue.xmi", "ContactSMS-RBAC.svg"),
-                createDFDModel(13, "ImageSharing", ConfidentialityMechanism.DAC, "dac_delegation",
-                        "dac_dfd.xmi", "dac_dfd_withIssue.xmi", "DAC.svg"),
-                createDFDModel(14, "FlightControl", ConfidentialityMechanism.MAC_Military, "mac",
-                        "mac_dfd.xmi", "mac_dfd_readViolation.xmi", "MAC-ReadViolation.svg"),
-                createDFDModel(15, "HealthRecord", ConfidentialityMechanism.MAC_NTK, "mac_needtoknow",
-                        "mac_dfd.xmi", "mac_dfd_withIssue.xmi", "MAC.svg"),
-                createDFDModel(16, "BankBranches", ConfidentialityMechanism.ABAC, "abac",
-                        "abac_dfd.xmi", "abac_dfd_withIssue.xmi", "ABAC.svg"),
+                        "DFDC_ContactSMS_AccessControl.xmi", "DFDC_ContactSMS_AccessControl_WithIssue.xmi",
+                        "ContactSMS-RBAC.svg"),
+                createDFDModel(13, "ImageSharing", ConfidentialityMechanism.DAC, "dac_delegation", "dac_dfd.xmi",
+                        "dac_dfd_withIssue.xmi", "DAC.svg"),
+                createDFDModel(14, "FlightControl", ConfidentialityMechanism.MAC_Military, "mac", "mac_dfd.xmi",
+                        "mac_dfd_readViolation.xmi", "MAC-ReadViolation.svg"),
+                createDFDModel(15, "HealthRecord", ConfidentialityMechanism.MAC_NTK, "mac_needtoknow", "mac_dfd.xmi",
+                        "mac_dfd_withIssue.xmi", "MAC.svg"),
+                createDFDModel(16, "BankBranches", ConfidentialityMechanism.ABAC, "abac", "abac_dfd.xmi",
+                        "abac_dfd_withIssue.xmi", "ABAC.svg"),
                 createDFDModel(17, "TravelPlanner", ConfidentialityMechanism.RBAC_TAINT, "travelplanner",
-                        "DFDC_TravelPlanner_TMAC.xmi", "DFDC_TravelPlanner_TMAC_WithIssue.xmi", "TravelPlanner_TMAC.svg"));
+                        "DFDC_TravelPlanner_TMAC.xmi", "DFDC_TravelPlanner_TMAC_WithIssue.xmi",
+                        "TravelPlanner_TMAC.svg"));
     }
 
     protected static DFDModel createDFDModel(int id, String name, ConfidentialityMechanism mechanism) {

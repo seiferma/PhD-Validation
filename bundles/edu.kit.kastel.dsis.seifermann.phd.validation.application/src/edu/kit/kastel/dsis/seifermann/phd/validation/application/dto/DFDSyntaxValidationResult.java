@@ -56,8 +56,20 @@ public class DFDSyntaxValidationResult implements Serializable {
         return Collections.unmodifiableMap(vm31_raw);
     }
 
-    public void setVm31_raw(Map<String, Double> vm31_raw) {
-        this.vm31_raw = new TreeMap<>(vm31_raw);
+    public void setVm31_raw(final Map<String, Double> vm31_raw) {
+        var sortedMap = new TreeMap<String, Double>((k1, k2) -> {
+            if (vm31_raw.containsKey(k1) && vm31_raw.containsKey(k2)) {
+                Double v1 = vm31_raw.get(k1);
+                Double v2 = vm31_raw.get(k2);
+                int vComparison = v1.compareTo(v2);
+                if (vComparison != 0) {
+                    return vComparison;
+                }
+            }
+            return k1.compareTo(k2);
+        });
+        sortedMap.putAll(vm31_raw);
+        this.vm31_raw = sortedMap;
     }
 
     public Map<ConfidentialityMechanism, RatioDTO> getVm11_raw() {
