@@ -1,7 +1,9 @@
 package edu.kit.kastel.dsis.seifermann.phd.validation.application.dto;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -14,11 +16,11 @@ public class DFDSyntaxValidationResult implements Serializable {
     private double vm11;
     private double vm12;
     private double vm21;
-    private int vm31;
+    private Collection<String> vm31;
     private Map<ConfidentialityMechanism, RatioDTO> vm11_raw;
     private Map<ConfidentialityMechanism, RatioDTO> vm12_raw;
     private Map<ConfidentialityMechanism, RatioDTO> vm21_raw;
-    private Map<String, Double> vm31_raw;
+    private Map<String, Integer> vm31_raw;
 
     public double getVm11() {
         return vm11;
@@ -44,31 +46,35 @@ public class DFDSyntaxValidationResult implements Serializable {
         this.vm21 = vm21;
     }
 
-    public int getVm31() {
+    public Collection<String> getVm31() {
         return vm31;
     }
 
-    public void setVm31(int vm31) {
-        this.vm31 = vm31;
+    public void setVm31(Collection<String> failedUsageMetric) {
+        this.vm31 = failedUsageMetric;
     }
 
-    public Map<String, Double> getVm31_raw() {
+    public Map<String, Integer> getVm31_raw() {
         return Collections.unmodifiableMap(vm31_raw);
     }
 
-    public void setVm31_raw(final Map<String, Double> vm31_raw) {
-        var sortedMap = new TreeMap<String, Double>((k1, k2) -> {
-            if (vm31_raw.containsKey(k1) && vm31_raw.containsKey(k2)) {
-                Double v1 = vm31_raw.get(k1);
-                Double v2 = vm31_raw.get(k2);
-                int vComparison = v1.compareTo(v2);
-                if (vComparison != 0) {
-                    return vComparison;
+    public void setVm31_raw(final Map<String, Collection<ConfidentialityMechanism>> metaModelUsage) {
+        var sortedMap = new LinkedHashMap<String, Integer>();
+        metaModelUsage.entrySet()
+            .stream()
+            .sorted((e1, e2) -> {
+                var vDiff = e1.getValue()
+                    .size()
+                        - e2.getValue()
+                            .size();
+                if (vDiff != 0) {
+                    return vDiff;
                 }
-            }
-            return k1.compareTo(k2);
-        });
-        sortedMap.putAll(vm31_raw);
+                return e1.getKey()
+                    .compareTo(e2.getKey());
+            })
+            .forEach(e -> sortedMap.put(e.getKey(), e.getValue()
+                .size()));
         this.vm31_raw = sortedMap;
     }
 

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -69,7 +70,7 @@ public class DFDSyntaxValidationWorkflow extends AbstractBlackboardInteractingJo
         monitor.worked(1);
 
         var metaModelUsage = getMetaModelUsage();
-        var failedUsageMetric = calculateFailedUsageMetric(metaModelUsage);
+        var failedUsageMetric = getFailedUsages(metaModelUsage);
         validationResult.setVm31(failedUsageMetric);
         validationResult.setVm31_raw(metaModelUsage);
         monitor.worked(1);
@@ -111,27 +112,54 @@ public class DFDSyntaxValidationWorkflow extends AbstractBlackboardInteractingJo
         return result;
     }
 
-    private int calculateFailedUsageMetric(Map<String, Double> metaModelUsage) {
-        double threshold = 1.0 / DFDModelIndex.getModelList(true)
-            .size();
-        return (int) metaModelUsage.entrySet()
+    private Collection<String> getFailedUsages(Map<String, Collection<ConfidentialityMechanism>> mmUsage) {
+        return mmUsage.entrySet()
             .stream()
-            .filter(entry -> entry.getValue() <= threshold)
-            .count();
+            .filter(entry -> entry.getValue()
+                .size() < 2)
+            .map(Entry::getKey)
+            .collect(Collectors.toList());
     }
 
-    private Map<String, Double> getMetaModelUsage() {
-        var usageStatistics = new HashMap<EClass, Integer>();
+    private Map<String, Collection<ConfidentialityMechanism>> getMetaModelUsage() {
         var allElements = findAllMetaModelElements();
         var blacklistedElements = findBlacklistedElements(allElements);
         var relevantElements = allElements.stream()
             .filter(element -> !blacklistedElements.contains(element))
             .collect(Collectors.toSet());
-        relevantElements.forEach(element -> usageStatistics.put(element, 0));
+        var result = new HashMap<String, Collection<ConfidentialityMechanism>>();
+        relevantElements.forEach(m -> result.put(m.getName(), new ArrayList<>()));
 
-        for (var model : DFDModelIndex.getModelList(true)) {
+        var mechanisms = DFDModelIndex.getModelList(true)
+            .stream()
+            .map(DFDModel::getMechanism)
+            .distinct()
+            .sorted()
+            .collect(Collectors.toList());
+        for (var mechanism : mechanisms) {
+            var models = DFDModelIndex.getModelList(true)
+                .stream()
+                .filter(m -> m.getMechanism() == mechanism)
+                .collect(Collectors.toList());
+            var mmUsage = getMetaModelUsage(relevantElements, blacklistedElements, models);
+            for (var entry : mmUsage.entrySet()) {
+                if (entry.getValue() > 0) {
+                    result.get(entry.getKey())
+                        .add(mechanism);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private Map<String, Integer> getMetaModelUsage(Collection<EClass> relevantElements,
+            Collection<EClass> forbiddenElements, Collection<DFDModel> models) {
+        var usageStatistics = new HashMap<EClass, Integer>();
+        relevantElements.forEach(element -> usageStatistics.put(element, 0));
+        for (var model : models) {
             var usedElements = getUsedMetaModelElements(model.getDfdWithoutViolation());
-            if (blacklistedElements.stream()
+            if (forbiddenElements.stream()
                 .anyMatch(usedElements::contains)) {
                 // blacklist is illegal
                 throw new IllegalStateException();
@@ -141,12 +169,10 @@ public class DFDSyntaxValidationWorkflow extends AbstractBlackboardInteractingJo
                 .forEach(element -> usageStatistics.put(element, usageStatistics.get(element) + 1));
         }
 
-        var dfdModels = (double) DFDModelIndex.getModelList(true)
-            .size();
         return usageStatistics.entrySet()
             .stream()
             .collect(Collectors.toMap(entry -> entry.getKey()
-                .getName(), entry -> entry.getValue() / dfdModels));
+                .getName(), entry -> entry.getValue()));
     }
 
     private Collection<EClass> findBlacklistedElements(Collection<EClass> allElements) {
