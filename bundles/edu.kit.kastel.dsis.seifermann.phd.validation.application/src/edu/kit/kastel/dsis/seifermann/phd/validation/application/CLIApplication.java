@@ -3,11 +3,8 @@ package edu.kit.kastel.dsis.seifermann.phd.validation.application;
 import java.io.File;
 import java.util.Optional;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
@@ -70,7 +67,6 @@ public class CLIApplication implements IApplication {
                 "profile.emfprofile_diagram").initilizationWithoutPlatform();
         DDDslStandaloneSetup.doSetup();
         new Log4jInitilizationTask().initilizationWithoutPlatform();
-        BasicConfigurator.configure(new ConsoleAppender(new PatternLayout("%d{HH:mm:ss,SSS} %m%n")));
         Logger.getLogger(AbstractInternalAntlrParser.class)
             .setLevel(Level.WARN);
         Logger.getLogger(DefaultLinkingService.class)

@@ -22,7 +22,7 @@ public class ValidationWorkflow extends BlackboardBasedWorkflow<Blackboard<Objec
     }
 
     protected static IJob createWorkflowJob(File outputDirectory) {
-        var job = new SequentialBlackboardInteractingJob<>();
+        var job = new SequentialBlackboardInteractingJob<>("Execution of validation goal jobs");
 
         var createOuputDirJob = new CreateDirectoryJob(outputDirectory);
         job.add(createOuputDirJob);
