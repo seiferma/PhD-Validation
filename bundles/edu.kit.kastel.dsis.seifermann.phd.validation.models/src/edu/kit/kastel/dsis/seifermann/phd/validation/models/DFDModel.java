@@ -7,20 +7,25 @@ import org.eclipse.emf.common.util.URI;
 public class DFDModel {
 
     protected final int caseStudySystemIdentifier;
-    private final String name;
+    protected final String name;
     protected final ConfidentialityMechanism mechanism;
     protected final URI dfdWithoutViolation;
     protected final URI dfdWithViolation;
+    protected final URL queryLocation;
     protected final URL visualizationLocation;
+    protected final URL queryRulesLocation;
 
     public DFDModel(int caseStudySystemIdentifier, String name, ConfidentialityMechanism mechanism,
-            URI dfdWithoutViolation, URI dfdWithViolation, URL visualizationLocation) {
+            URI dfdWithoutViolation, URI dfdWithViolation, URL queryRulesLocation, URL queryLocation,
+            URL visualizationLocation) {
         super();
         this.caseStudySystemIdentifier = caseStudySystemIdentifier;
         this.name = name;
         this.mechanism = mechanism;
         this.dfdWithoutViolation = dfdWithoutViolation;
         this.dfdWithViolation = dfdWithViolation;
+        this.queryRulesLocation = queryRulesLocation;
+        this.queryLocation = queryLocation;
         this.visualizationLocation = visualizationLocation;
     }
 
@@ -47,9 +52,21 @@ public class DFDModel {
     public String getName() {
         return name;
     }
-    
+
     public boolean hasModel() {
         return dfdWithoutViolation != null;
+    }
+
+    public URL getQueryLocation() {
+        return queryLocation;
+    }
+
+    public URL getQueryRulesLocation() {
+        return queryRulesLocation;
+    }
+    
+    public boolean hasQuery() {
+        return queryLocation != null;
     }
 
 }

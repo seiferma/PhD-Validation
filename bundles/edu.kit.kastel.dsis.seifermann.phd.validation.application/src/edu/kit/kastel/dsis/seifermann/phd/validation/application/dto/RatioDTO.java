@@ -22,5 +22,9 @@ public class RatioDTO implements Serializable {
     public int getTotal() {
         return total;
     }
+    
+    public double getRatio() {
+        return amount/(double)total;
+    }
 
 }

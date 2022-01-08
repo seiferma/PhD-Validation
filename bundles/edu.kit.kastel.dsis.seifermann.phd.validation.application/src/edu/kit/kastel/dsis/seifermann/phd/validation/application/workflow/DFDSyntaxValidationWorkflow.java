@@ -92,7 +92,7 @@ public class DFDSyntaxValidationWorkflow extends AbstractBlackboardInteractingJo
             ConfidentialityMechanismCategory category) {
         var result = new HashMap<ConfidentialityMechanism, RatioDTO>();
 
-        var modelsByMechanism = DFDModelIndex.getModelList(false)
+        var modelsByMechanism = DFDModelIndex.getModelList()
             .stream()
             .filter(m -> m.getMechanism()
                 .getCategory() == category)
@@ -130,14 +130,14 @@ public class DFDSyntaxValidationWorkflow extends AbstractBlackboardInteractingJo
         var result = new HashMap<String, Collection<ConfidentialityMechanism>>();
         relevantElements.forEach(m -> result.put(m.getName(), new ArrayList<>()));
 
-        var mechanisms = DFDModelIndex.getModelList(true)
+        var mechanisms = DFDModelIndex.getModelList(DFDModel::hasModel)
             .stream()
             .map(DFDModel::getMechanism)
             .distinct()
             .sorted()
             .collect(Collectors.toList());
         for (var mechanism : mechanisms) {
-            var models = DFDModelIndex.getModelList(true)
+            var models = DFDModelIndex.getModelList(DFDModel::hasModel)
                 .stream()
                 .filter(m -> m.getMechanism() == mechanism)
                 .collect(Collectors.toList());
