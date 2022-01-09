@@ -4,7 +4,7 @@ dynamic(STORE, CT, V) :-
 	actor(A),
 	flowTree(STORE, PIN, S),
 	traversedNode(S, A),
-	nodeCharacteristic(A, 'Identity (_o7_1k9VeEeqRbpVUMz5XAQ)»', Y),
+	nodeCharacteristic(A, 'Identity (_o7_1k9VeEeqRbpVUMz5XAQ)', Y),
 	owner(Y, STORE).
 
 owner(V, STORE) :-
