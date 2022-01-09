@@ -14,6 +14,7 @@ import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 import edu.kit.kastel.dsis.seifermann.phd.validation.application.dto.DFDAnalysesValidationResult;
 import edu.kit.kastel.dsis.seifermann.phd.validation.application.dto.RatioDTO;
+import edu.kit.kastel.dsis.seifermann.phd.validation.application.internal.Activator;
 import edu.kit.kastel.dsis.seifermann.phd.validation.models.ConfidentialityMechanism;
 import edu.kit.kastel.dsis.seifermann.phd.validation.models.ConfidentialityMechanismCategory;
 import edu.kit.kastel.dsis.seifermann.phd.validation.models.DFDModel;
@@ -21,6 +22,8 @@ import edu.kit.kastel.dsis.seifermann.phd.validation.models.DFDModelIndex;
 
 public class DFDAnalysesValidationWorkflow extends AbstractBlackboardInteractingJob<Blackboard<Object>> {
 
+    private static final DFDModelIndex DFD_MODEL_INDEX = Activator.getInstance()
+        .getDFDModelIndex();
     private final String resultKey;
 
     public DFDAnalysesValidationWorkflow(String resultKey) {
@@ -69,13 +72,13 @@ public class DFDAnalysesValidationWorkflow extends AbstractBlackboardInteracting
             ConfidentialityMechanismCategory category) {
         var result = new HashMap<ConfidentialityMechanism, RatioDTO>();
 
-        var mechanismsInCategory = DFDModelIndex.getModelList(m -> m.hasModel() && m.getMechanism()
+        var mechanismsInCategory = DFD_MODEL_INDEX.getModelList(m -> m.hasModel() && m.getMechanism()
             .getCategory() == category)
             .stream()
             .map(DFDModel::getMechanism)
             .collect(Collectors.toSet());
         for (var mechanism : mechanismsInCategory) {
-            var modelsUsingMechanism = DFDModelIndex.getModelList(m -> m.hasModel() && m.getMechanism() == mechanism);
+            var modelsUsingMechanism = DFD_MODEL_INDEX.getModelList(m -> m.hasModel() && m.getMechanism() == mechanism);
             var modelsWithQuery = (int) modelsUsingMechanism.stream()
                 .filter(DFDModel::hasQuery)
                 .count();

@@ -30,6 +30,7 @@ import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 import edu.kit.kastel.dsis.seifermann.phd.validation.application.dto.DFDSyntaxValidationResult;
 import edu.kit.kastel.dsis.seifermann.phd.validation.application.dto.RatioDTO;
+import edu.kit.kastel.dsis.seifermann.phd.validation.application.internal.Activator;
 import edu.kit.kastel.dsis.seifermann.phd.validation.models.ConfidentialityMechanism;
 import edu.kit.kastel.dsis.seifermann.phd.validation.models.ConfidentialityMechanismCategory;
 import edu.kit.kastel.dsis.seifermann.phd.validation.models.DFDModel;
@@ -37,6 +38,8 @@ import edu.kit.kastel.dsis.seifermann.phd.validation.models.DFDModelIndex;
 
 public class DFDSyntaxValidationWorkflow extends AbstractBlackboardInteractingJob<Blackboard<Object>> {
 
+    private static final DFDModelIndex DFD_MODEL_INDEX = Activator.getInstance()
+        .getDFDModelIndex();
     private final String resultKey;
 
     public DFDSyntaxValidationWorkflow(String resultKey) {
@@ -92,7 +95,7 @@ public class DFDSyntaxValidationWorkflow extends AbstractBlackboardInteractingJo
             ConfidentialityMechanismCategory category) {
         var result = new HashMap<ConfidentialityMechanism, RatioDTO>();
 
-        var modelsByMechanism = DFDModelIndex.getModelList()
+        var modelsByMechanism = DFD_MODEL_INDEX.getModelList()
             .stream()
             .filter(m -> m.getMechanism()
                 .getCategory() == category)
@@ -130,14 +133,14 @@ public class DFDSyntaxValidationWorkflow extends AbstractBlackboardInteractingJo
         var result = new HashMap<String, Collection<ConfidentialityMechanism>>();
         relevantElements.forEach(m -> result.put(m.getName(), new ArrayList<>()));
 
-        var mechanisms = DFDModelIndex.getModelList(DFDModel::hasModel)
+        var mechanisms = DFD_MODEL_INDEX.getModelList(DFDModel::hasModel)
             .stream()
             .map(DFDModel::getMechanism)
             .distinct()
             .sorted()
             .collect(Collectors.toList());
         for (var mechanism : mechanisms) {
-            var models = DFDModelIndex.getModelList(DFDModel::hasModel)
+            var models = DFD_MODEL_INDEX.getModelList(DFDModel::hasModel)
                 .stream()
                 .filter(m -> m.getMechanism() == mechanism)
                 .collect(Collectors.toList());

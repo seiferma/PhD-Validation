@@ -5,7 +5,10 @@ import java.util.Optional;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import org.palladiosimulator.supporting.prolog.api.PrologAPI;
 import org.prolog4j.manager.IProverManager;
+
+import edu.kit.kastel.dsis.seifermann.phd.validation.models.DFDModelIndex;
 
 public class Activator extends Plugin {
 
@@ -52,18 +55,26 @@ public class Activator extends Plugin {
 
     private static Activator instance;
     private ServiceProvider<IProverManager> proverManager;
+    private ServiceProvider<PrologAPI> prologApi;
+    private ServiceProvider<DFDModelIndex> dfdModelIndex;
 
     @Override
     public void start(BundleContext context) throws Exception {
         super.start(context);
         setInstance(this);
         proverManager = new ServiceProvider<>(IProverManager.class, context);
+        prologApi = new ServiceProvider<>(PrologAPI.class, context);
+        dfdModelIndex = new ServiceProvider<>(DFDModelIndex.class, context);
     }
 
     @Override
     public void stop(BundleContext context) throws Exception {
         proverManager.uninit();
         proverManager = null;
+        prologApi.uninit();
+        prologApi = null;
+        dfdModelIndex.uninit();
+        dfdModelIndex = null;
         setInstance(null);
         super.stop(context);
     }
@@ -78,6 +89,18 @@ public class Activator extends Plugin {
 
     public IProverManager getProverManager() {
         return Optional.ofNullable(proverManager)
+            .map(ServiceProvider::get)
+            .orElse(null);
+    }
+
+    public PrologAPI getPrologAPI() {
+        return Optional.ofNullable(prologApi)
+            .map(ServiceProvider::get)
+            .orElse(null);
+    }
+
+    public DFDModelIndex getDFDModelIndex() {
+        return Optional.ofNullable(dfdModelIndex)
             .map(ServiceProvider::get)
             .orElse(null);
     }

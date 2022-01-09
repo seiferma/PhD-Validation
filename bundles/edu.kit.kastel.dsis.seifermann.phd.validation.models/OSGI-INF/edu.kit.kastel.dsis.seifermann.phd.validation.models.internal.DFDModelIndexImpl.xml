@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" name="edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.DFDModelIndexImpl">
+   <service scope="singleton">
+      <provide interface="edu.kit.kastel.dsis.seifermann.phd.validation.models.DFDModelIndex"/>
+   </service>
+   <reference bind="bindDFDModel" cardinality="0..n" interface="edu.kit.kastel.dsis.seifermann.phd.validation.models.DFDModel" name="DFDModel" policy="dynamic" unbind="unbindDFDModel"/>
+   <implementation class="edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.DFDModelIndexImpl"/>
+</scr:component>
