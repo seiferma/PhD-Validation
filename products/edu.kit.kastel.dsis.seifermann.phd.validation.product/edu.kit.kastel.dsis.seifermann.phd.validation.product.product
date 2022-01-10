@@ -196,7 +196,6 @@
       <plugin id="org.prolog4j.api"/>
       <plugin id="org.prolog4j.manager"/>
       <plugin id="org.prolog4j.swicli"/>
-      <plugin id="org.prolog4j.swicli.enabler"/>
       <plugin id="org.tukaani.xz"/>
       <plugin id="org.w3c.css.sac"/>
       <plugin id="org.w3c.dom.events"/>
@@ -214,7 +213,6 @@
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
       <plugin id="org.prolog4j.manager" autoStart="true" startLevel="0" />
-      <plugin id="org.prolog4j.swicli.enabler" autoStart="true" startLevel="0" />
    </configurations>
 
 </product>
