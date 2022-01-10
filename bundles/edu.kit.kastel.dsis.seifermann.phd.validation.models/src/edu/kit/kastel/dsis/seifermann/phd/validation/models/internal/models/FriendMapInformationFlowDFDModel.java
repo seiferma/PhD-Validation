@@ -19,9 +19,19 @@ public class FriendMapInformationFlowDFDModel extends DFDModelBase {
     }
 
     @Override
-    protected boolean isAcceptableViolation(Map<String, Object> violation) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean isAcceptableViolation(Map<String, Object> violation) {
+        var nodeId = violation.get("P")
+            .toString();
+        var classificationId = violation.get("V_LEVEL")
+            .toString();
+        var clearanceId = violation.get("V_CLEAR")
+            .toString();
+
+        var nodeBelongsToGoogle = nodeId.contains("Google.");
+        var clearanceForLow = clearanceId.contains("Low ");
+        var classificationForHigh = classificationId.contains("High ");
+
+        return nodeBelongsToGoogle && clearanceForLow && classificationForHigh;
     }
 
 }

@@ -17,7 +17,7 @@ public class BankingAppInformationFlowDFDModel extends DFDModelBase {
     }
 
     @Override
-    protected boolean isAcceptableViolation(Map<String, Object> violation) {
+    public boolean isAcceptableViolation(Map<String, Object> violation) {
         // TODO Auto-generated method stub
         return false;
     }

@@ -14,6 +14,7 @@ public class ValidationWorkflow extends BlackboardBasedWorkflow<Blackboard<Objec
 
     protected static final String KEY_RESULT_DFDSYNTAX = "validationResultDfdSyntax";
     protected static final String KEY_RESULT_DFDANALYSES = "validationResultDfdAnalyses";
+    protected static final String KEY_RESULT_DFDSEMANTICS = "validationResultDfdSemantics";
     protected final File outputDirectory;
 
     protected ValidationWorkflow(WorkflowExceptionHandler handler, File outputDirectory) {
@@ -40,6 +41,13 @@ public class ValidationWorkflow extends BlackboardBasedWorkflow<Blackboard<Objec
         var vg2File = new File(outputDirectory, "vg2.json");
         var vg2SerializeJob = new SerialiseObjectToJsonJob(KEY_RESULT_DFDANALYSES, vg2File);
         job.add(vg2SerializeJob);
+
+        var vg3Job = new DFDSemanticsValidationWorkflow(KEY_RESULT_DFDSEMANTICS);
+        job.add(vg3Job);
+
+        var vg3File = new File(outputDirectory, "vg3.json");
+        var vg3SerializeJob = new SerialiseObjectToJsonJob(KEY_RESULT_DFDSEMANTICS, vg3File);
+        job.add(vg3SerializeJob);
 
         return job;
     }

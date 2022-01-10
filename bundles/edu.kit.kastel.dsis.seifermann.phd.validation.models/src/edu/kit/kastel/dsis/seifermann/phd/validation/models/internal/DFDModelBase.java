@@ -2,7 +2,9 @@ package edu.kit.kastel.dsis.seifermann.phd.validation.models.internal;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -58,7 +60,7 @@ public abstract class DFDModelBase implements DFDModel {
         this(id, name, mechanism, null, null, null, null, null, null);
     }
 
-    protected abstract boolean isAcceptableViolation(Map<String, Object> violation);
+    public abstract boolean isAcceptableViolation(Map<String, Object> violation);
 
     public boolean areViolationsAcceptable(Collection<Map<String, Object>> violations) {
         return violations.stream()
@@ -113,6 +115,23 @@ public abstract class DFDModelBase implements DFDModel {
     @Override
     public boolean hasQuery() {
         return queryLocation != null;
+    }
+    
+    protected static Collection<String> flattenFlowTree(Collection<Object> collection) {
+        var result = new ArrayList<String>();
+        var queue = new LinkedList<>();
+        queue.add(collection);
+        while (!queue.isEmpty()) {
+            var current = queue.pop();
+            if (current instanceof Collection) {
+                @SuppressWarnings("unchecked")
+                var currentCollection = (Collection<Object>)current;
+                queue.addAll(currentCollection);
+            } else {
+                result.add(current.toString());
+            }
+        }
+        return result;
     }
 
     private static void throwIfUriButInvalid(URI uri) {

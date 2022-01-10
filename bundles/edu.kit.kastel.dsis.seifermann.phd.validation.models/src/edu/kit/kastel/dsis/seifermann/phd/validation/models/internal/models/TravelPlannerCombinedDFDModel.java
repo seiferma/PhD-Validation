@@ -1,5 +1,6 @@
 package edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
@@ -18,9 +19,27 @@ public class TravelPlannerCombinedDFDModel extends DFDModelBase {
     }
 
     @Override
-    protected boolean isAcceptableViolation(Map<String, Object> violation) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean isAcceptableViolation(Map<String, Object> violation) {
+        var processId = violation.get("P")
+            .toString();
+        var criticalityId = violation.get("C")
+            .toString();
+        var validationId = violation.get("V")
+            .toString();
+        @SuppressWarnings("unchecked")
+        var flowTree = (Collection<Object>) violation.get("S");
+        var flattenedFlowTree = flattenFlowTree(flowTree);
+
+        var flowTreeContainsMaliciousFlow = flattenedFlowTree.stream()
+            .anyMatch(id -> id.contains("ccd direct"));
+        var notValidated = validationId.contains("NotValidated ");
+        var criticalityHigh = criticalityId.contains("High ");
+        // everything after receiving not validated ccd is affected: further processing in CCD and
+        // in Ariline
+        var belongsToAirline = processId.contains("Airline.");
+        var belongsToCCC = processId.contains("CCD.");
+
+        return flowTreeContainsMaliciousFlow && notValidated && criticalityHigh && (belongsToAirline || belongsToCCC);
     }
 
 }

@@ -1,5 +1,6 @@
 package edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
@@ -19,9 +20,24 @@ public class TravelPlannerAccessControlDFDModel extends DFDModelBase {
     }
 
     @Override
-    protected boolean isAcceptableViolation(Map<String, Object> violation) {
-        // TODO Auto-generated method stub
-        return false;
+    @SuppressWarnings("unchecked")
+    public boolean isAcceptableViolation(Map<String, Object> violation) {
+        var processId = violation.get("P")
+            .toString();
+        var requiredRoles = (Collection<String>) violation.get("REQ");
+        var assignedRoles = (Collection<String>) violation.get("ROLES");
+        var flowTree = (Collection<Object>) violation.get("S");
+        var flattenedFlowTree = flattenFlowTree(flowTree);
+
+        var flowTreeContainsMaliciousFlow = flattenedFlowTree.stream()
+            .anyMatch(flow -> flow.contains("ccd direct"));
+        var belongsToAirline = processId.contains("Airline.");
+        var hasOnlyAirlineRole = assignedRoles.size() == 1 && assignedRoles.stream()
+            .anyMatch(id -> id.contains("Airline "));
+        var onlyAccessibleToUserRole = requiredRoles.size() == 1 && requiredRoles.stream()
+            .anyMatch(id -> id.contains("User "));
+
+        return flowTreeContainsMaliciousFlow && belongsToAirline && hasOnlyAirlineRole && onlyAccessibleToUserRole;
     }
 
 }

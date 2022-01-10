@@ -15,6 +15,8 @@ public interface DFDModel {
     boolean hasModel();
 
     boolean hasQuery();
+    
+    boolean isAcceptableViolation(Map<String, Object> violation);
 
     boolean areViolationsAcceptable(Collection<Map<String, Object>> violations);
 

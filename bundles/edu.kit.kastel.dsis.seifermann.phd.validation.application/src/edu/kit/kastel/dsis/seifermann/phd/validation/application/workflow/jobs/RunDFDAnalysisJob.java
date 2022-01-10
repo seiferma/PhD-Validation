@@ -65,7 +65,7 @@ public class RunDFDAnalysisJob extends AbstractBlackboardInteractingJob<Blackboa
         } catch (IOException e) {
             throw new JobFailedException("Could not load query.", e);
         }
-        var fullPrologProgram = prologProgram + System.lineSeparator() + queryRules;
+        var fullPrologProgram = prologProgram.get() + System.lineSeparator() + queryRules;
         monitor.worked(1);
 
         // run prolog program

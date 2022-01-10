@@ -1,5 +1,6 @@
 package edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
@@ -18,9 +19,21 @@ public class ContactSMSAccessControlDFDModel extends DFDModelBase {
     }
 
     @Override
-    protected boolean isAcceptableViolation(Map<String, Object> violation) {
-        // TODO Auto-generated method stub
-        return false;
+    @SuppressWarnings("unchecked")
+    public boolean isAcceptableViolation(Map<String, Object> violation) {
+        var requiredRoles = (Collection<String>) violation.get("REQ");
+        var assignedRoles = (Collection<String>) violation.get("ROLES");
+        var flowTree = (Collection<Object>) violation.get("S");
+        var flattenedFlowTree = flattenFlowTree(flowTree);
+
+        var flowTreeContainsMaliciousFlow = flattenedFlowTree.stream()
+            .anyMatch(flow -> flow.contains("contact direct"));
+        var onlyHasSMSManagerRole = assignedRoles.size() == 1 && assignedRoles.stream()
+            .anyMatch(id -> id.contains("SMSManager "));
+        var noAccessForSMSManager = requiredRoles.stream()
+            .noneMatch(id -> id.contains("SMSManager "));
+
+        return flowTreeContainsMaliciousFlow && onlyHasSMSManagerRole && noAccessForSMSManager;
     }
 
 }

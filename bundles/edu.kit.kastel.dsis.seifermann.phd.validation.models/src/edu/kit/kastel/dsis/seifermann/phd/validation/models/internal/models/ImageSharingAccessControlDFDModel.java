@@ -1,5 +1,6 @@
 package edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
@@ -18,9 +19,22 @@ public class ImageSharingAccessControlDFDModel extends DFDModelBase {
     }
 
     @Override
-    protected boolean isAcceptableViolation(Map<String, Object> violation) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean isAcceptableViolation(Map<String, Object> violation) {
+        var actorId = violation.get("A")
+            .toString();
+        var storeId = violation.get("STORE")
+            .toString();
+        @SuppressWarnings("unchecked")
+        var flowTree = (Collection<Object>) violation.get("S");
+        var flattenedFlowTree = flattenFlowTree(flowTree);
+
+        var isAunt = actorId.contains("Aunt ");
+        var isFamilityPicturesStore = storeId.contains("Family Pictures ");
+        var flowToActorContainsPictures = flattenedFlowTree.iterator()
+            .next()
+            .contains("pictures ");
+
+        return isAunt && isFamilityPicturesStore && flowToActorContainsPictures;
     }
 
 }

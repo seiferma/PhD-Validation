@@ -1,5 +1,6 @@
 package edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
@@ -19,9 +20,21 @@ public class DistanceTrackerInformationFlowDFDModel extends DFDModelBase {
     }
 
     @Override
-    protected boolean isAcceptableViolation(Map<String, Object> violation) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean isAcceptableViolation(Map<String, Object> violation) {
+        var classificationId = violation.get("V_LEVEL")
+            .toString();
+        var clearanceId = violation.get("V_CLEAR")
+            .toString();
+        @SuppressWarnings("unchecked")
+        var flowTree = (Collection<Object>) violation.get("S");
+        var flattenedFlowTree = flattenFlowTree(flowTree);
+
+        var flowTreeContainsMaliciousFlow = flattenedFlowTree.stream()
+            .anyMatch(flow -> flow.contains("direct distance"));
+        var clearanceForTrackingService = clearanceId.contains("OnlyDistance ");
+        var classificationForUserAndDistanceTracker = classificationId.contains("User,DistanceTracker ");
+
+        return flowTreeContainsMaliciousFlow && clearanceForTrackingService && classificationForUserAndDistanceTracker;
     }
 
 }
