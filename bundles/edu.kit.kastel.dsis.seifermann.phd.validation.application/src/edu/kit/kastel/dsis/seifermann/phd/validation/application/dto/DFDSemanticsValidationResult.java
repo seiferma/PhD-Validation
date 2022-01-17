@@ -7,24 +7,24 @@ public class DFDSemanticsValidationResult implements Serializable {
 
     private static final long serialVersionUID = -7154048534147349525L;
 
-    private int vm61;
-    private int vm62;
+    private double vm61;
+    private double vm62;
     private Map<Integer, DFDModelAnalysisResultDTO> vm61_raw;
     private Map<Integer, DFDModelAnalysisResultDTO> vm62_raw;
 
-    public int getVm61() {
+    public double getVm61() {
         return vm61;
     }
 
-    public void setVm61(int vm61) {
+    public void setVm61(double vm61) {
         this.vm61 = vm61;
     }
 
-    public int getVm62() {
+    public double getVm62() {
         return vm62;
     }
 
-    public void setVm62(int vm62) {
+    public void setVm62(double vm62) {
         this.vm62 = vm62;
     }
 

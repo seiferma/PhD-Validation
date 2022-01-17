@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -32,7 +33,7 @@ public class DFDSemanticsValidationWorkflow extends AbstractBlackboardInteractin
     public DFDSemanticsValidationWorkflow(String resultsKey) {
         this.resultsKey = resultsKey;
     }
-    
+
     @Override
     public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
         var result = new DFDSemanticsValidationResult();
@@ -40,20 +41,24 @@ public class DFDSemanticsValidationWorkflow extends AbstractBlackboardInteractin
         monitor.beginTask("Run DFD analyses in Prolog", 1);
 
         var dfdAnalysisResult = runAnalyses(new NullProgressMonitor());
-        var falsePositivesRaw = getFalsePositivesRaw(dfdAnalysisResult);
-        var falsePositives = countResultsWithWrongViolations(falsePositivesRaw.values());
-        var falseNegativesRaw = getFalseNegativesRaw(dfdAnalysisResult);
-        var falseNegatives = countResultsWithWrongViolations(falseNegativesRaw.values());
-        result.setVm61(falsePositives);
-        result.setVm61_raw(falsePositivesRaw);
-        result.setVm62(falseNegatives);
-        result.setVm62_raw(falseNegativesRaw);
-        
+        var trueNegativesRaw = getTrueNegativesRaw(dfdAnalysisResult);
+        var trueNegativeRate = calculateRateByWrongViolations(trueNegativesRaw.values(), r -> !r.getViolations()
+            .isEmpty());
+        var truePositivesRaw = getTruePositivesRaw(dfdAnalysisResult);
+        var truePositivesRate = calculateRateByWrongViolations(truePositivesRaw.values(), r -> r.getViolations()
+            .isEmpty()
+                || !r.getWrongViolations()
+                    .isEmpty());
+        result.setVm61(truePositivesRate);
+        result.setVm61_raw(truePositivesRaw);
+        result.setVm62(trueNegativeRate);
+        result.setVm62_raw(trueNegativesRaw);
+
         monitor.worked(1);
         monitor.done();
     }
 
-    private Map<Integer, DFDModelAnalysisResultDTO> getFalseNegativesRaw(
+    private Map<Integer, DFDModelAnalysisResultDTO> getTruePositivesRaw(
             Map<DFDModel, DFDAnalysisResultDTO> dfdAnalysisResult) {
         return dfdAnalysisResult.entrySet()
             .stream()
@@ -63,7 +68,7 @@ public class DFDSemanticsValidationWorkflow extends AbstractBlackboardInteractin
                         .getDfdWithIssue()));
     }
 
-    private Map<Integer, DFDModelAnalysisResultDTO> getFalsePositivesRaw(
+    private Map<Integer, DFDModelAnalysisResultDTO> getTrueNegativesRaw(
             Map<DFDModel, DFDAnalysisResultDTO> dfdAnalysisResult) {
         return dfdAnalysisResult.entrySet()
             .stream()
@@ -73,11 +78,13 @@ public class DFDSemanticsValidationWorkflow extends AbstractBlackboardInteractin
                         .getDfdWithoutIssue()));
     }
 
-    private int countResultsWithWrongViolations(Collection<DFDModelAnalysisResultDTO> results) {
-        return (int) results.stream()
-            .filter(result -> !result.getWrongViolations()
-                .isEmpty())
+    private double calculateRateByWrongViolations(Collection<DFDModelAnalysisResultDTO> results,
+            Predicate<DFDModelAnalysisResultDTO> invalidResultTester) {
+        var systemsWithWrongResults = (int) results.stream()
+            .filter(invalidResultTester::test)
             .count();
+        var totalAmountOfSystems = results.size();
+        return (totalAmountOfSystems - systemsWithWrongResults) / (double) totalAmountOfSystems;
     }
 
     private Map<DFDModel, DFDAnalysisResultDTO> runAnalyses(IProgressMonitor monitor)
