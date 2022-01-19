@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.palladiosimulator.dataflow.diagram.DataFlowDiagram.DataFlowDiagramPackage;
@@ -178,17 +179,26 @@ public class DFDSyntaxValidationWorkflow extends AbstractBlackboardInteractingJo
                 .getName(), entry -> entry.getValue()));
     }
 
-    private Collection<EClass> findBlacklistedElements(Collection<EClass> allElements) {
-        var dd = DataDictionaryPackage.eINSTANCE;
-        var dfd = DataFlowDiagramPackage.eINSTANCE;
-        // ignore primitive data types: not used and not described in thesis
-        // ignore refinements: not used and not described in thesis
-        // ignore data flow: specialized variant is used instead
-        // ignore data: concept replaced by characteristics
-        return Arrays.asList(dd.getCollectionDataType(), dd.getCompositeDataType(), dd.getDataType(),
+	private Collection<EClass> findBlacklistedElements(Collection<EClass> allElements) {
+		var dd = DataDictionaryPackage.eINSTANCE;
+		var dfd = DataFlowDiagramPackage.eINSTANCE;
+		var ecore = EcorePackage.eINSTANCE;
+		// ignore primitive data types: not used and not described in thesis
+		// ignore refinements: not used and not described in thesis
+		// ignore data flow: specialized variant is used instead
+		// ignore data: concept replaced by characteristics
+		// ignore ecore elements
+        var result = new ArrayList<EClass>();
+        ecore.eContents()
+            .stream()
+            .filter(EClass.class::isInstance)
+            .map(EClass.class::cast)
+            .forEach(result::add);
+        result.addAll(Arrays.asList(dd.getCollectionDataType(), dd.getCompositeDataType(), dd.getDataType(),
                 dd.getPrimitiveDataType(), dd.getEntry(), dfd.getEdgeRefinement(), dfd.getDataFlowDiagramRefinement(),
-                dfd.getDataFlow(), dfd.getData());
-    }
+                dfd.getDataFlow(), dfd.getData()));
+        return result;
+	}
 
     private Collection<EClass> getUsedMetaModelElements(URI dfdModelUri) {
         var rs = new ResourceSetImpl();
@@ -208,6 +218,8 @@ public class DFDSyntaxValidationWorkflow extends AbstractBlackboardInteractingJo
                 elementsToMarkAsUsed.add(element);
                 return elementsToMarkAsUsed.stream();
             })
+            .filter(e -> !EcorePackage.eINSTANCE.eContents()
+                .contains(e))
             .collect(Collectors.toSet());
     }
 
