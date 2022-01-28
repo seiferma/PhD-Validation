@@ -12,6 +12,7 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.23.0",
 Export-Package: edu.kit.kastel.dsis.seifermann.phd.validation.models
 Import-Package: org.osgi.service.component.annotations;version="1.3.0"
 Service-Component: OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.DFDModelIndexImpl.xml,
+ OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.PCMModelIndexImpl.xml,
  OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.BankBranchesAccessControlDFDModel.xml,
  OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.BankingAppInformationFlowDFDModel.xml,
  OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.ContactSMSAccessControlDFDModel.xml,

@@ -3,6 +3,6 @@
    <service scope="singleton">
       <provide interface="edu.kit.kastel.dsis.seifermann.phd.validation.models.DFDModelIndex"/>
    </service>
-   <reference bind="bindDFDModel" cardinality="0..n" interface="edu.kit.kastel.dsis.seifermann.phd.validation.models.DFDModel" name="DFDModel" policy="dynamic" unbind="unbindDFDModel"/>
+   <reference bind="bindModel" cardinality="0..n" interface="edu.kit.kastel.dsis.seifermann.phd.validation.models.DFDModel" name="Model" policy="dynamic" unbind="unbindModel"/>
    <implementation class="edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.DFDModelIndexImpl"/>
 </scr:component>
