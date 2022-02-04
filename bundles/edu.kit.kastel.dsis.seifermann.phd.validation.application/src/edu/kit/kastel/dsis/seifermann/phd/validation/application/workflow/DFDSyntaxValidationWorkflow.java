@@ -29,6 +29,7 @@ import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
+import edu.kit.kastel.dsis.seifermann.phd.validation.application.calculations.ExpressivenessWeightedRatioMetricCalculator;
 import edu.kit.kastel.dsis.seifermann.phd.validation.application.dto.DFDSyntaxValidationResult;
 import edu.kit.kastel.dsis.seifermann.phd.validation.application.dto.RatioDTO;
 import edu.kit.kastel.dsis.seifermann.phd.validation.application.internal.Activator;
@@ -82,38 +83,15 @@ public class DFDSyntaxValidationWorkflow extends AbstractBlackboardInteractingJo
         monitor.done();
     }
 
-    private double calculateWeightedRatioMetric(Map<ConfidentialityMechanism, RatioDTO> expressedModelsRatios) {
-        double ratioSum = expressedModelsRatios.values()
-            .stream()
-            .mapToDouble(ratio -> ratio.getAmount() / (double) ratio.getTotal())
-            .sum();
-        int ratioAmount = expressedModelsRatios.size();
-        double weightedRatio = ratioSum / ratioAmount;
-        return weightedRatio;
+    private double calculateWeightedRatioMetric(
+            Map<ConfidentialityMechanism, RatioDTO> expressedModelsRatios) {
+        return ExpressivenessWeightedRatioMetricCalculator.calculateWeightedRatioMetric(expressedModelsRatios);
     }
 
-    private Map<ConfidentialityMechanism, RatioDTO> getExpressedModelsRatios(
-            ConfidentialityMechanismCategory category) {
-        var result = new HashMap<ConfidentialityMechanism, RatioDTO>();
-
-        var modelsByMechanism = DFD_MODEL_INDEX.getModelList()
-            .stream()
-            .filter(m -> m.getMechanism()
-                .getCategory() == category)
-            .collect(Collectors.groupingBy(DFDModel::getMechanism));
-
-        for (var mechanismEntry : modelsByMechanism.entrySet()) {
-            var modeled = (int) mechanismEntry.getValue()
-                .stream()
-                .filter(DFDModel::hasModel)
-                .count();
-            var total = mechanismEntry.getValue()
-                .size();
-            var ratio = new RatioDTO(modeled, total);
-            result.put(mechanismEntry.getKey(), ratio);
-        }
-
-        return result;
+    private Map<ConfidentialityMechanism, RatioDTO> getExpressedModelsRatios(ConfidentialityMechanismCategory category) {
+        var models = DFD_MODEL_INDEX.getModelList(m -> m.getMechanism().getCategory() == category);
+        var calculator = new ExpressivenessWeightedRatioMetricCalculator(models);
+        return calculator.getExpressedModelsRatios();
     }
 
     private Collection<String> getFailedUsages(Map<String, Collection<ConfidentialityMechanism>> mmUsage) {

@@ -15,6 +15,7 @@ public class ValidationWorkflow extends BlackboardBasedWorkflow<Blackboard<Objec
     protected static final String KEY_RESULT_DFDSYNTAX = "validationResultDfdSyntax";
     protected static final String KEY_RESULT_DFDANALYSES = "validationResultDfdAnalyses";
     protected static final String KEY_RESULT_DFDSEMANTICS = "validationResultDfdSemantics";
+    protected static final String KEY_RESULT_ADLINTEGRATION = "validationResultAdlIntegration";
     protected final File outputDirectory;
 
     protected ValidationWorkflow(WorkflowExceptionHandler handler, File outputDirectory) {
@@ -48,6 +49,13 @@ public class ValidationWorkflow extends BlackboardBasedWorkflow<Blackboard<Objec
         var vg3File = new File(outputDirectory, "vg3.json");
         var vg3SerializeJob = new SerialiseObjectToJsonJob(KEY_RESULT_DFDSEMANTICS, vg3File);
         job.add(vg3SerializeJob);
+        
+        var vg4Job = new PCMValidationWorkflow(KEY_RESULT_ADLINTEGRATION);
+        job.add(vg4Job);
+
+        var vg4File = new File(outputDirectory, "vg4.json");
+        var vg4SerializeJob = new SerialiseObjectToJsonJob(KEY_RESULT_ADLINTEGRATION, vg4File);
+        job.add(vg4SerializeJob);
 
         return job;
     }

@@ -1,23 +1,23 @@
 package edu.kit.kastel.dsis.seifermann.phd.validation.application.workflow;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
+
+import com.google.common.base.Predicates;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.IBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
-import edu.kit.kastel.dsis.seifermann.phd.validation.application.dto.DFDAnalysisResultDTO;
-import edu.kit.kastel.dsis.seifermann.phd.validation.application.dto.DFDModelAnalysisResultDTO;
+import edu.kit.kastel.dsis.seifermann.phd.validation.application.calculations.CorrectnessMetricCalculator;
+import edu.kit.kastel.dsis.seifermann.phd.validation.application.calculations.CorrectnessMetricCalculator.AnalysisJobFactory;
 import edu.kit.kastel.dsis.seifermann.phd.validation.application.dto.DFDSemanticsValidationResult;
 import edu.kit.kastel.dsis.seifermann.phd.validation.application.internal.Activator;
 import edu.kit.kastel.dsis.seifermann.phd.validation.application.workflow.jobs.RunDFDAnalysisJob;
@@ -40,15 +40,13 @@ public class DFDSemanticsValidationWorkflow extends AbstractBlackboardInteractin
         getBlackboard().addPartition(resultsKey, result);
         monitor.beginTask("Run DFD analyses in Prolog", 1);
 
-        var dfdAnalysisResult = runAnalyses(new NullProgressMonitor());
-        var trueNegativesRaw = getTrueNegativesRaw(dfdAnalysisResult);
-        var trueNegativeRate = calculateRateByWrongViolations(trueNegativesRaw.values(), r -> !r.getViolations()
-            .isEmpty());
-        var truePositivesRaw = getTruePositivesRaw(dfdAnalysisResult);
-        var truePositivesRate = calculateRateByWrongViolations(truePositivesRaw.values(), r -> r.getViolations()
-            .isEmpty()
-                || !r.getWrongViolations()
-                    .isEmpty());
+        var calculator = createMetricCalculator();
+
+        var dfdAnalysisResult = calculator.runAnalyses(Predicates.alwaysTrue(), monitor);
+        var trueNegativesRaw = calculator.getTrueNegativesRaw(dfdAnalysisResult);
+        var trueNegativeRate = calculator.calculateTrueNegativeRate(trueNegativesRaw);
+        var truePositivesRaw = calculator.getTruePositivesRaw(dfdAnalysisResult);
+        var truePositivesRate = calculator.calculateTruePositiveRate(truePositivesRaw);
         result.setVm61(truePositivesRate);
         result.setVm61_raw(truePositivesRaw);
         result.setVm62(trueNegativeRate);
@@ -58,80 +56,18 @@ public class DFDSemanticsValidationWorkflow extends AbstractBlackboardInteractin
         monitor.done();
     }
 
-    private Map<Integer, DFDModelAnalysisResultDTO> getTruePositivesRaw(
-            Map<DFDModel, DFDAnalysisResultDTO> dfdAnalysisResult) {
-        return dfdAnalysisResult.entrySet()
-            .stream()
-            .collect(Collectors.toMap(entry -> entry.getKey()
-                .getCaseStudySystemIdentifier(),
-                    entry -> entry.getValue()
-                        .getDfdWithIssue()));
-    }
-
-    private Map<Integer, DFDModelAnalysisResultDTO> getTrueNegativesRaw(
-            Map<DFDModel, DFDAnalysisResultDTO> dfdAnalysisResult) {
-        return dfdAnalysisResult.entrySet()
-            .stream()
-            .collect(Collectors.toMap(entry -> entry.getKey()
-                .getCaseStudySystemIdentifier(),
-                    entry -> entry.getValue()
-                        .getDfdWithoutIssue()));
-    }
-
-    private double calculateRateByWrongViolations(Collection<DFDModelAnalysisResultDTO> results,
-            Predicate<DFDModelAnalysisResultDTO> invalidResultTester) {
-        var systemsWithWrongResults = (int) results.stream()
-            .filter(invalidResultTester::test)
-            .count();
-        var totalAmountOfSystems = results.size();
-        return (totalAmountOfSystems - systemsWithWrongResults) / (double) totalAmountOfSystems;
-    }
-
-    private Map<DFDModel, DFDAnalysisResultDTO> runAnalyses(IProgressMonitor monitor)
-            throws JobFailedException, UserCanceledException {
-        var result = new HashMap<DFDModel, DFDAnalysisResultDTO>();
-        var models = DFD_MODEL_INDEX.getModelList(DFDModel::hasQuery);
-        for (var model : models) {
-            var analysisResult = runAnalysis(model, monitor);
-            result.put(model, analysisResult);
-        }
-        return result;
-    }
-
-    private DFDAnalysisResultDTO runAnalysis(DFDModel model, IProgressMonitor monitor)
-            throws JobFailedException, UserCanceledException {
-        var result = new DFDAnalysisResultDTO();
-
-        // run analysis for variant without issue -> all violations are wrong
-        var noIssueResult = new DFDModelAnalysisResultDTO();
-        var noIssueSolution = runPrologAnalysis(model.getDfdWithoutViolation(), model.getQueryRulesLocation(),
-                model.getQueryLocation(), monitor);
-        noIssueResult.setViolations(noIssueSolution);
-        noIssueResult.setWrongViolations(noIssueSolution);
-        result.setDfdWithoutIssue(noIssueResult);
-
-        // run analysis for variant with issue -> test if violations are correct
-        var issueResult = new DFDModelAnalysisResultDTO();
-        var issueSolution = runPrologAnalysis(model.getDfdWithViolation(), model.getQueryRulesLocation(),
-                model.getQueryLocation(), monitor);
-        var issueSolutionWrong = issueSolution.stream()
-            .filter(solution -> !model.isAcceptableViolation(solution))
-            .collect(Collectors.toList());
-        issueResult.setViolations(issueSolution);
-        issueResult.setWrongViolations(issueSolutionWrong);
-        result.setDfdWithIssue(issueResult);
-
-        return result;
-    }
-
-    @SuppressWarnings("unchecked")
-    private Collection<Map<String, Object>> runPrologAnalysis(URI dfdModel, URL queryRules, URL query,
-            IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
-        var analysisJob = new RunDFDAnalysisJob("result", dfdModel, queryRules, query);
-        var blackboard = new Blackboard<Object>();
-        analysisJob.setBlackboard(blackboard);
-        analysisJob.execute(monitor);
-        return (Collection<Map<String, Object>>) blackboard.getPartition("result");
+    private CorrectnessMetricCalculator<DFDModel> createMetricCalculator() {
+        AnalysisJobFactory factory = new AnalysisJobFactory() {
+            @Override
+            public IBlackboardInteractingJob<Blackboard<Object>> createAnalysisJob(String resultKey,
+                    URL queryRulesLocation, URL queryLocation, Collection<URI> modelUris) {
+                return new RunDFDAnalysisJob(resultKey, modelUris.iterator()
+                    .next(), queryRulesLocation, queryLocation);
+            }
+        };
+        Function<DFDModel, Collection<URI>> noIssueURIExtractor = m -> Arrays.asList(m.getDfdWithoutViolation());
+        Function<DFDModel, Collection<URI>> issueURIExtractor = m -> Arrays.asList(m.getDfdWithViolation());
+        return new CorrectnessMetricCalculator<>(DFD_MODEL_INDEX, factory, noIssueURIExtractor, issueURIExtractor);
     }
 
     @Override
