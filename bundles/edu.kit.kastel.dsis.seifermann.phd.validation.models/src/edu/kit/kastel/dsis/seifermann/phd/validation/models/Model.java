@@ -18,6 +18,8 @@ public interface Model {
 
     int getCaseStudySystemIdentifier();
 
+    boolean hasModel();
+    
     default boolean hasQuery() {
         return getQueryLocation() != null;
     }

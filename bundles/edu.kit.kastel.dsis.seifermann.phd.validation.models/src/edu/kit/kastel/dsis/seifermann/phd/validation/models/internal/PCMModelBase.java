@@ -11,16 +11,18 @@ public abstract class PCMModelBase extends ModelBase implements PCMModel {
     private final CommunicationParadigm communicationParadigm;
     private final URI usageModelWithoutIssue;
     private final URI usageModelWithIssue;
-    private final URI allocationModel;
+    private final URI allocationModelWithoutIssue;
+    private final URI allocationModelWithIssue;
 
     public PCMModelBase(int id, String name, ConfidentialityMechanism mechanism, CommunicationParadigm paradigm,
             String folderName, String usageModelWithoutIssueName, String usageModelWithIssueName,
-            String allocationModelName, String queryRulesName, String queryName) {
+            String allocationModelWithoutIssueName, String allocationModelWithIssueName, String queryRulesName, String queryName) {
         super("pcmModels", id, name, mechanism, folderName, queryRulesName, queryName);
         this.communicationParadigm = paradigm;
         this.usageModelWithoutIssue = getModelURI(folderName, usageModelWithoutIssueName);
         this.usageModelWithIssue = getModelURI(folderName, usageModelWithIssueName);
-        this.allocationModel = getModelURI(folderName, allocationModelName);
+        this.allocationModelWithoutIssue = getModelURI(folderName, allocationModelWithoutIssueName);
+        this.allocationModelWithIssue = getModelURI(folderName, allocationModelWithIssueName);
     }
 
     @Override
@@ -34,8 +36,13 @@ public abstract class PCMModelBase extends ModelBase implements PCMModel {
     }
 
     @Override
-    public URI getAllocationModel() {
-        return allocationModel;
+    public URI getAllocationModelWithoutViolation() {
+        return allocationModelWithoutIssue;
+    }
+    
+    @Override
+    public URI getAllocationModelWithViolation() {
+        return allocationModelWithIssue;
     }
 
     @Override

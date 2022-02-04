@@ -29,4 +29,10 @@ Service-Component: OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models
  OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.dfd.TravelPlannerAccessControlDFDModel.xml,
  OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.dfd.TravelPlannerCombinedDFDModel.xml,
  OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.dfd.TravelPlannerInformationFlowDFDModel.xml,
- OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.dfd.WebRTCInformationFlowDFDModel.xml
+ OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.dfd.WebRTCInformationFlowDFDModel.xml,
+ OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.pcm.ContactSMS_HL_CF.xml,
+ OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.pcm.ContactSMS_HL_DF.xml,
+ OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.pcm.DistanceTracker_HL_CF.xml,
+ OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.pcm.DistanceTracker_HL_DF.xml,
+ OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.pcm.TravelPlanner_HL_CF.xml,
+ OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.pcm.TravelPlanner_HL_DF.xml

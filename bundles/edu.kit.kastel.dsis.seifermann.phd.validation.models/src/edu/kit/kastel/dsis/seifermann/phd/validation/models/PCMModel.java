@@ -8,8 +8,15 @@ public interface PCMModel extends Model {
 
     URI getUsageModelWithViolation();
 
-    URI getAllocationModel();
+    URI getAllocationModelWithoutViolation();
+
+    URI getAllocationModelWithViolation();
 
     CommunicationParadigm getCommunicationParadigm();
+
+    @Override
+    default boolean hasModel() {
+        return getAllocationModelWithoutViolation() != null && getAllocationModelWithViolation() != null;
+    }
 
 }

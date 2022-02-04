@@ -12,6 +12,7 @@ public interface DFDModel extends Model {
 
     URL getVisualizationLocation();
 
+    @Override
     default boolean hasModel() {
         return getDfdWithoutViolation() != null;
     }

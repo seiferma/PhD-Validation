@@ -9,6 +9,7 @@ import org.palladiosimulator.supporting.prolog.api.PrologAPI;
 import org.prolog4j.manager.IProverManager;
 
 import edu.kit.kastel.dsis.seifermann.phd.validation.models.DFDModelIndex;
+import edu.kit.kastel.dsis.seifermann.phd.validation.models.PCMModelIndex;
 
 public class Activator extends Plugin {
 
@@ -57,6 +58,7 @@ public class Activator extends Plugin {
     private ServiceProvider<IProverManager> proverManager;
     private ServiceProvider<PrologAPI> prologApi;
     private ServiceProvider<DFDModelIndex> dfdModelIndex;
+    private ServiceProvider<PCMModelIndex> pcmModelIndex;
 
     @Override
     public void start(BundleContext context) throws Exception {
@@ -65,6 +67,7 @@ public class Activator extends Plugin {
         proverManager = new ServiceProvider<>(IProverManager.class, context);
         prologApi = new ServiceProvider<>(PrologAPI.class, context);
         dfdModelIndex = new ServiceProvider<>(DFDModelIndex.class, context);
+        pcmModelIndex = new ServiceProvider<>(PCMModelIndex.class, context);
     }
 
     @Override
@@ -75,6 +78,8 @@ public class Activator extends Plugin {
         prologApi = null;
         dfdModelIndex.uninit();
         dfdModelIndex = null;
+        pcmModelIndex.uninit();
+        pcmModelIndex = null;
         setInstance(null);
         super.stop(context);
     }
@@ -101,6 +106,12 @@ public class Activator extends Plugin {
 
     public DFDModelIndex getDFDModelIndex() {
         return Optional.ofNullable(dfdModelIndex)
+            .map(ServiceProvider::get)
+            .orElse(null);
+    }
+
+    public PCMModelIndex getPCMModelIndex() {
+        return Optional.ofNullable(pcmModelIndex)
             .map(ServiceProvider::get)
             .orElse(null);
     }
