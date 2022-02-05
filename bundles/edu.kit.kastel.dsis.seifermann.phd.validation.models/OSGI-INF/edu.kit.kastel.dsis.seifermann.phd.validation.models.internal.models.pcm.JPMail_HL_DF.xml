@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" name="edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.pcm.JPMail_HL_DF">
+   <service scope="singleton">
+      <provide interface="edu.kit.kastel.dsis.seifermann.phd.validation.models.PCMModel"/>
+   </service>
+   <implementation class="edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.pcm.JPMail_HL_DF"/>
+</scr:component>
