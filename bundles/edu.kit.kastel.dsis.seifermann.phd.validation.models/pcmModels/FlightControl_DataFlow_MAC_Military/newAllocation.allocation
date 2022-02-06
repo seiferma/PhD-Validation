@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ASCII"?>
+<allocation:Allocation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:allocation="http://palladiosimulator.org/PalladioComponentModel/Allocation/5.2" id="_dIV6wD4sEeuI6qYQxDoU_g" entityName="New Allocation">
+  <targetResourceEnvironment_Allocation href="newResourceEnvironment.resourceenvironment#/0"/>
+  <allocationContexts_Allocation id="_nuEC0D5ZEeu6R-Bv47HrEQ" entityName="Allocation_Assembly_CivilRouteController">
+    <resourceContainer_AllocationContext href="newResourceEnvironment.resourceenvironment#_ZFeiQD4sEeuI6qYQxDoU_g"/>
+    <assemblyContext_AllocationContext href="newSystem.system#_ZePV0D5TEeu6R-Bv47HrEQ"/>
+  </allocationContexts_Allocation>
+  <allocationContexts_Allocation id="_pWmt8D5ZEeu6R-Bv47HrEQ" entityName="Allocation_Assembly_WeatherReportStore">
+    <resourceContainer_AllocationContext href="newResourceEnvironment.resourceenvironment#_V3_SkD4sEeuI6qYQxDoU_g"/>
+    <assemblyContext_AllocationContext href="newSystem.system#_TcG-0D5UEeu6R-Bv47HrEQ"/>
+  </allocationContexts_Allocation>
+  <allocationContexts_Allocation id="_p9E4ED5ZEeu6R-Bv47HrEQ" entityName="Allocation_Assembly_MilitaryRouteController">
+    <resourceContainer_AllocationContext href="newResourceEnvironment.resourceenvironment#_aKRAED4sEeuI6qYQxDoU_g"/>
+    <assemblyContext_AllocationContext href="newSystem.system#_uINDcD5TEeu6R-Bv47HrEQ"/>
+  </allocationContexts_Allocation>
+  <allocationContexts_Allocation id="_q859YD5ZEeu6R-Bv47HrEQ" entityName="Allocation_Assembly_FlightDB">
+    <resourceContainer_AllocationContext href="newResourceEnvironment.resourceenvironment#_aKRAED4sEeuI6qYQxDoU_g"/>
+    <assemblyContext_AllocationContext href="newSystem.system#_d_f6gD5TEeu6R-Bv47HrEQ"/>
+  </allocationContexts_Allocation>
+  <allocationContexts_Allocation id="_szH4ID5ZEeu6R-Bv47HrEQ" entityName="Allocation_Assembly_PlaneMultiplexer">
+    <resourceContainer_AllocationContext href="newResourceEnvironment.resourceenvironment#_ZFeiQD4sEeuI6qYQxDoU_g"/>
+    <assemblyContext_AllocationContext href="newSystem.system#_6r3_YD5TEeu6R-Bv47HrEQ"/>
+  </allocationContexts_Allocation>
+</allocation:Allocation>
