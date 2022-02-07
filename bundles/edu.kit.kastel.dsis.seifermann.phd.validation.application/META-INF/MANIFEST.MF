@@ -20,7 +20,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.apache.commons.io;bundle-version="2.8.0",
  org.prolog4j.api;bundle-version="1.0.0",
  org.palladiosimulator.supporting.prolog.api;bundle-version="5.1.0",
- org.palladiosimulator.dataflow.confidentiality.pcm.workflow;bundle-version="5.1.0"
+ org.palladiosimulator.dataflow.confidentiality.pcm.workflow;bundle-version="5.1.0",
+ org.eclipse.emf.compare;bundle-version="3.5.3",
+ org.apache.commons.lang3;bundle-version="3.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: edu.kit.kastel.dsis.seifermann.phd.validation.application
 Bundle-ActivationPolicy: lazy

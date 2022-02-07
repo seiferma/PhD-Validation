@@ -18,6 +18,7 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 import edu.kit.kastel.dsis.seifermann.phd.validation.application.calculations.CorrectnessMetricCalculator;
 import edu.kit.kastel.dsis.seifermann.phd.validation.application.calculations.CorrectnessMetricCalculator.AnalysisJobFactory;
 import edu.kit.kastel.dsis.seifermann.phd.validation.application.calculations.ExpressivenessWeightedRatioMetricCalculator;
+import edu.kit.kastel.dsis.seifermann.phd.validation.application.calculations.PCMModelJaccardCoefficientCalculator;
 import edu.kit.kastel.dsis.seifermann.phd.validation.application.dto.ADLIntegrationValidationResult;
 import edu.kit.kastel.dsis.seifermann.phd.validation.application.dto.RatioDTO;
 import edu.kit.kastel.dsis.seifermann.phd.validation.application.internal.Activator;
@@ -43,10 +44,16 @@ public class PCMValidationWorkflow extends AbstractBlackboardInteractingJob<Blac
     public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
         var result = new ADLIntegrationValidationResult();
         getBlackboard().addPartition(resultsKey, result);
-        monitor.beginTask("Run DFD analyses in Prolog", 1);
+        monitor.beginTask("Run DFD analyses in Prolog", 3);
 
         validateExpressiveness(result);
+        monitor.worked(1);
+
         validateCorrectness(result, monitor);
+        monitor.worked(1);
+
+        validateSwitchingMechanisms(result);
+        monitor.worked(1);
     }
 
     private void validateExpressiveness(ADLIntegrationValidationResult resultObject) {
@@ -116,11 +123,29 @@ public class PCMValidationWorkflow extends AbstractBlackboardInteractingJob<Blac
         result.setVm94_raw(dfTrueNegativesRaw);
     }
 
-    private double calculateWeightedRatioMetric(Map<ConfidentialityMechanism, RatioDTO> expressedModelsRatios) {
+    private void validateSwitchingMechanisms(ADLIntegrationValidationResult result) {
+        var calculator = new PCMModelJaccardCoefficientCalculator(MODEL_INDEX);
+
+        var jaccardCoefficientsControlFlowRaw = calculator
+            .calculateJaccardCoefficientForSwitching(CommunicationParadigm.CONTROL_FLOW);
+        var jaccardCoefficientsControlFlow = PCMModelJaccardCoefficientCalculator
+            .calculateJaccardCoefficient(jaccardCoefficientsControlFlowRaw);
+        result.setVm111(jaccardCoefficientsControlFlow);
+        result.setVm111_raw(jaccardCoefficientsControlFlowRaw);
+
+        var jaccardCoefficientsDataFlowRaw = calculator
+            .calculateJaccardCoefficientForSwitching(CommunicationParadigm.DATA_FLOW);
+        var jaccardCoefficientsDataFlow = PCMModelJaccardCoefficientCalculator
+            .calculateJaccardCoefficient(jaccardCoefficientsDataFlowRaw);
+        result.setVm112(jaccardCoefficientsDataFlow);
+        result.setVm112_raw(jaccardCoefficientsDataFlowRaw);
+    }
+
+    private static double calculateWeightedRatioMetric(Map<ConfidentialityMechanism, RatioDTO> expressedModelsRatios) {
         return ExpressivenessWeightedRatioMetricCalculator.calculateWeightedRatioMetric(expressedModelsRatios);
     }
 
-    private Map<ConfidentialityMechanism, RatioDTO> getExpressedModelsRatios(CommunicationParadigm paradigm,
+    private static Map<ConfidentialityMechanism, RatioDTO> getExpressedModelsRatios(CommunicationParadigm paradigm,
             ConfidentialityMechanismCategory category) {
         var models = MODEL_INDEX.getModelList(m -> m.getCommunicationParadigm() == paradigm && m.getMechanism()
             .getCategory() == category);
@@ -128,7 +153,7 @@ public class PCMValidationWorkflow extends AbstractBlackboardInteractingJob<Blac
         return calculator.getExpressedModelsRatios();
     }
 
-    private CorrectnessMetricCalculator<PCMModel> createCorrectnessMetricCalculator() {
+    private static CorrectnessMetricCalculator<PCMModel> createCorrectnessMetricCalculator() {
         AnalysisJobFactory factory = new AnalysisJobFactory() {
             @Override
             public IBlackboardInteractingJob<Blackboard<Object>> createAnalysisJob(String resultKey,

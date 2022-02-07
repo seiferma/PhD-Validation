@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.eclipse.emf.compare.EMFCompare;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
@@ -74,6 +75,8 @@ public class CLIApplication implements IApplication {
         Logger.getLogger(ResourceSetBasedAllContainersStateProvider.class)
             .setLevel(Level.WARN);
         Logger.getLogger(AbstractCleaningLinker.class)
+            .setLevel(Level.WARN);
+        Logger.getLogger(EMFCompare.class.getPackageName())
             .setLevel(Level.WARN);
 
         final ValidationWorkflow workflow = ValidationWorkflow.build(new WorkflowExceptionHandler(true),

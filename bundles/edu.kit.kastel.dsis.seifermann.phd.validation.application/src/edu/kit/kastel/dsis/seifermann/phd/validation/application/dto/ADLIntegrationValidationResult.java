@@ -3,6 +3,9 @@ package edu.kit.kastel.dsis.seifermann.phd.validation.application.dto;
 import java.io.Serializable;
 import java.util.Map;
 
+import org.apache.commons.lang3.tuple.Pair;
+
+import edu.kit.kastel.dsis.seifermann.phd.validation.application.calculations.JaccardCoefficientCalculator.JaccardCoefficientRaw;
 import edu.kit.kastel.dsis.seifermann.phd.validation.models.ConfidentialityMechanism;
 
 public class ADLIntegrationValidationResult implements Serializable {
@@ -19,6 +22,8 @@ public class ADLIntegrationValidationResult implements Serializable {
     private double vm92;
     private double vm93;
     private double vm94;
+    private Map<Pair<Integer, Integer>, Double> vm111;
+    private Map<Pair<Integer, Integer>, Double> vm112;
     private Map<ConfidentialityMechanism, RatioDTO> vm81_raw;
     private Map<ConfidentialityMechanism, RatioDTO> vm82_raw;
     private Map<ConfidentialityMechanism, RatioDTO> vm83_raw;
@@ -29,6 +34,8 @@ public class ADLIntegrationValidationResult implements Serializable {
     private Map<Integer, DFDModelAnalysisResultDTO> vm92_raw;
     private Map<Integer, DFDModelAnalysisResultDTO> vm93_raw;
     private Map<Integer, DFDModelAnalysisResultDTO> vm94_raw;
+    private Map<Pair<Integer, Integer>, JaccardCoefficientRaw> vm111_raw;
+    private Map<Pair<Integer, Integer>, JaccardCoefficientRaw> vm112_raw;
 
     public double getVm81() {
         return vm81;
@@ -188,6 +195,38 @@ public class ADLIntegrationValidationResult implements Serializable {
 
     public void setVm94_raw(Map<Integer, DFDModelAnalysisResultDTO> vm94_raw) {
         this.vm94_raw = vm94_raw;
+    }
+
+    public Map<Pair<Integer, Integer>, Double> getVm111() {
+        return vm111;
+    }
+
+    public void setVm111(Map<Pair<Integer, Integer>, Double> vm111) {
+        this.vm111 = vm111;
+    }
+
+    public Map<Pair<Integer, Integer>, Double> getVm112() {
+        return vm112;
+    }
+
+    public void setVm112(Map<Pair<Integer, Integer>, Double> vm112) {
+        this.vm112 = vm112;
+    }
+
+    public Map<Pair<Integer, Integer>, JaccardCoefficientRaw> getVm111_raw() {
+        return vm111_raw;
+    }
+
+    public void setVm111_raw(Map<Pair<Integer, Integer>, JaccardCoefficientRaw> vm111_raw) {
+        this.vm111_raw = vm111_raw;
+    }
+
+    public Map<Pair<Integer, Integer>, JaccardCoefficientRaw> getVm112_raw() {
+        return vm112_raw;
+    }
+
+    public void setVm112_raw(Map<Pair<Integer, Integer>, JaccardCoefficientRaw> vm112_raw) {
+        this.vm112_raw = vm112_raw;
     }
 
 }
