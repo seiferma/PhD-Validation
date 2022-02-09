@@ -2,9 +2,11 @@ package edu.kit.kastel.dsis.seifermann.phd.validation.application.calculations;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -39,8 +41,11 @@ public class JaccardCoefficientCalculator {
         private final Map<String, Long> changedElementsByType;
         private final long amountOfElements;
 
-        public JaccardCoefficientRaw(Long amountOfElements, Map<String, Long> changedElementsByType) {
-            this.changedElementsByType = changedElementsByType;
+        public JaccardCoefficientRaw(Long amountOfElements, final Map<String, Long> changedElementsByType) {
+            var changedElementsByTypeSorted = new TreeMap<String, Long>((k1, k2) -> changedElementsByType.get(k2)
+                .compareTo(changedElementsByType.get(k1)));
+            changedElementsByTypeSorted.putAll(changedElementsByType);
+            this.changedElementsByType = Collections.unmodifiableMap(changedElementsByTypeSorted);
             this.amountOfElements = amountOfElements;
         }
 
