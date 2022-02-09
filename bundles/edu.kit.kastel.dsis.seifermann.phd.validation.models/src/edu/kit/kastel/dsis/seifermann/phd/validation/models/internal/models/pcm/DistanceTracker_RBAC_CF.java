@@ -4,11 +4,14 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ServiceScope;
 
 import edu.kit.kastel.dsis.seifermann.phd.validation.models.CommunicationParadigm;
 import edu.kit.kastel.dsis.seifermann.phd.validation.models.ConfidentialityMechanism;
 import edu.kit.kastel.dsis.seifermann.phd.validation.models.PCMModel;
+import edu.kit.kastel.dsis.seifermann.phd.validation.models.PlainPCMModel;
 import edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.PCMModelBase;
 
 @Component(scope = ServiceScope.SINGLETON, service = { PCMModel.class })
@@ -43,4 +46,8 @@ public class DistanceTracker_RBAC_CF extends PCMModelBase {
                 && requiredRolesAreUserAndDistanceTracker;
     }
 
+    @Reference(cardinality = ReferenceCardinality.MULTIPLE)
+    public void bindPlainPCMModel(PlainPCMModel plainModel) {
+        super.bindPlainPCMModel(plainModel);
+    }
 }
