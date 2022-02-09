@@ -22,6 +22,8 @@ public class ADLIntegrationValidationResult implements Serializable {
     private double vm92;
     private double vm93;
     private double vm94;
+    private Map<Integer, Double> vm101;
+    private Map<Integer, Double> vm102;
     private Map<Pair<Integer, Integer>, Double> vm111;
     private Map<Pair<Integer, Integer>, Double> vm112;
     private Map<ConfidentialityMechanism, RatioDTO> vm81_raw;
@@ -34,6 +36,8 @@ public class ADLIntegrationValidationResult implements Serializable {
     private Map<Integer, DFDModelAnalysisResultDTO> vm92_raw;
     private Map<Integer, DFDModelAnalysisResultDTO> vm93_raw;
     private Map<Integer, DFDModelAnalysisResultDTO> vm94_raw;
+    private Map<Integer, JaccardCoefficientRaw> vm101_raw;
+    private Map<Integer, JaccardCoefficientRaw> vm102_raw;
     private Map<Pair<Integer, Integer>, JaccardCoefficientRaw> vm111_raw;
     private Map<Pair<Integer, Integer>, JaccardCoefficientRaw> vm112_raw;
 
@@ -227,6 +231,38 @@ public class ADLIntegrationValidationResult implements Serializable {
 
     public void setVm112_raw(Map<Pair<Integer, Integer>, JaccardCoefficientRaw> vm112_raw) {
         this.vm112_raw = vm112_raw;
+    }
+
+    public Map<Integer, Double> getVm101() {
+        return vm101;
+    }
+
+    public void setVm101(Map<Integer, Double> vm101) {
+        this.vm101 = vm101;
+    }
+
+    public Map<Integer, Double> getVm102() {
+        return vm102;
+    }
+
+    public void setVm102(Map<Integer, Double> vm102) {
+        this.vm102 = vm102;
+    }
+
+    public Map<Integer, JaccardCoefficientRaw> getVm101_raw() {
+        return vm101_raw;
+    }
+
+    public void setVm101_raw(Map<Integer, JaccardCoefficientRaw> vm101_raw) {
+        this.vm101_raw = vm101_raw;
+    }
+
+    public Map<Integer, JaccardCoefficientRaw> getVm102_raw() {
+        return vm102_raw;
+    }
+
+    public void setVm102_raw(Map<Integer, JaccardCoefficientRaw> vm102_raw) {
+        this.vm102_raw = vm102_raw;
     }
 
 }

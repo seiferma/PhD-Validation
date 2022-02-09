@@ -44,12 +44,15 @@ public class PCMValidationWorkflow extends AbstractBlackboardInteractingJob<Blac
     public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
         var result = new ADLIntegrationValidationResult();
         getBlackboard().addPartition(resultsKey, result);
-        monitor.beginTask("Run DFD analyses in Prolog", 3);
+        monitor.beginTask("Run DFD analyses in Prolog", 4);
 
         validateExpressiveness(result);
         monitor.worked(1);
 
         validateCorrectness(result, monitor);
+        monitor.worked(1);
+
+        validateAddingMechanisms(result);
         monitor.worked(1);
 
         validateSwitchingMechanisms(result);
@@ -121,6 +124,24 @@ public class PCMValidationWorkflow extends AbstractBlackboardInteractingJob<Blac
         result.setVm93_raw(dfTruePositivesRaw);
         result.setVm94(dfTrueNegativeRate);
         result.setVm94_raw(dfTrueNegativesRaw);
+    }
+
+    private void validateAddingMechanisms(ADLIntegrationValidationResult result) {
+        var calculator = new PCMModelJaccardCoefficientCalculator(MODEL_INDEX);
+
+        var jaccardCoefficientsControlFlowRaw = calculator
+            .calculateJaccardCoefficientForAdding(CommunicationParadigm.CONTROL_FLOW);
+        var jaccardCoefficientsControlFlow = PCMModelJaccardCoefficientCalculator
+            .calculateJaccardCoefficient(jaccardCoefficientsControlFlowRaw);
+        result.setVm101(jaccardCoefficientsControlFlow);
+        result.setVm101_raw(jaccardCoefficientsControlFlowRaw);
+
+        var jaccardCoefficientsDataFlowRaw = calculator
+            .calculateJaccardCoefficientForAdding(CommunicationParadigm.DATA_FLOW);
+        var jaccardCoefficientsDataFlow = PCMModelJaccardCoefficientCalculator
+            .calculateJaccardCoefficient(jaccardCoefficientsDataFlowRaw);
+        result.setVm102(jaccardCoefficientsDataFlow);
+        result.setVm102_raw(jaccardCoefficientsDataFlowRaw);
     }
 
     private void validateSwitchingMechanisms(ADLIntegrationValidationResult result) {
