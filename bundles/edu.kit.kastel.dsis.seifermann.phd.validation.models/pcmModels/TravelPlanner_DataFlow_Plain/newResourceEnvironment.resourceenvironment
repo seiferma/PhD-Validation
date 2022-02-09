@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ASCII"?>
+<resourceenvironment:ResourceEnvironment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:resourceenvironment="http://palladiosimulator.org/PalladioComponentModel/ResourceEnvironment/5.2" entityName="New ResourceEnvironment">
+  <linkingResources__ResourceEnvironment id="_axXbsBdxEeupdPoAmrbV3w" entityName="Internet" connectedResourceContainers_LinkingResource="_XNP0sBdxEeupdPoAmrbV3w _YYccgBdxEeupdPoAmrbV3w _Z7-EwBdxEeupdPoAmrbV3w">
+    <communicationLinkResourceSpecifications_LinkingResource id="_axZQ4BdxEeupdPoAmrbV3w">
+      <latency_CommunicationLinkResourceSpecification/>
+      <throughput_CommunicationLinkResourceSpecification/>
+    </communicationLinkResourceSpecifications_LinkingResource>
+  </linkingResources__ResourceEnvironment>
+  <resourceContainer_ResourceEnvironment id="_XNP0sBdxEeupdPoAmrbV3w" entityName="Mobile"/>
+  <resourceContainer_ResourceEnvironment id="_YYccgBdxEeupdPoAmrbV3w" entityName="TravelAgencyServer"/>
+  <resourceContainer_ResourceEnvironment id="_Z7-EwBdxEeupdPoAmrbV3w" entityName="AirlineServer"/>
+</resourceenvironment:ResourceEnvironment>

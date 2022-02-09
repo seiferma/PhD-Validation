@@ -19,4 +19,9 @@ public interface PCMModel extends Model {
         return getAllocationModelWithoutViolation() != null && getAllocationModelWithViolation() != null;
     }
 
+    PlainPCMModel getPlainPCMModel();
+    
+    default boolean hasPlainPCMModel() {
+        return getPlainPCMModel() != null;
+    }
 }

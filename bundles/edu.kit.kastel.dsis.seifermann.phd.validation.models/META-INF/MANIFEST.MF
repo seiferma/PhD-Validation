@@ -58,6 +58,8 @@ Service-Component: OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models
  OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.pcm.PrivateTaxi_AL_DF.xml,
  OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.pcm.TravelPlanner_HL_CF.xml,
  OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.pcm.TravelPlanner_HL_DF.xml,
+ OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.pcm.TravelPlanner_Plain_CF.xml,
+ OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.pcm.TravelPlanner_Plain_DF.xml,
  OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.pcm.TravelPlanner_RBAC_CF.xml,
  OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.pcm.TravelPlanner_RBAC_DF.xml,
  OSGI-INF/edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.models.pcm.TravelPlanner_TMAC_CF.xml,
