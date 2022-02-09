@@ -150,6 +150,10 @@ public class JaccardCoefficientCalculator {
                 .getLeft());
         }
 
+        @Override
+        public Collection<EObject> doSwitch(EObject theEObject) {
+            return filterProfileElements(super.doSwitch(theEObject));
+        }
     }
 
     protected static class ChangedElementsRightFinder extends CompareSwitch<Collection<EObject>> {
@@ -167,6 +171,11 @@ public class JaccardCoefficientCalculator {
         public Collection<EObject> caseDiff(Diff object) {
             return Arrays.asList(object.getMatch()
                 .getRight());
+        }
+
+        @Override
+        public Collection<EObject> doSwitch(EObject theEObject) {
+            return filterProfileElements(super.doSwitch(theEObject));
         }
 
     }
@@ -242,7 +251,10 @@ public class JaccardCoefficientCalculator {
         rs.getAllContents()
             .forEachRemaining(n -> {
                 if (n instanceof EObject) {
-                    contents.add((EObject) n);
+                    var eObject = (EObject) n;
+                    if (!belongsToProfile(eObject)) {
+                        contents.add((EObject) n);
+                    }
                 }
             });
         return contents;
@@ -260,6 +272,19 @@ public class JaccardCoefficientCalculator {
         return EMFCompare.builder()
             .setMatchEngineFactoryRegistry(registry)
             .build();
+    }
+
+    private static boolean belongsToProfile(EObject eObject) {
+        return eObject != null && eObject.eResource()
+            .getURI()
+            .lastSegment()
+            .endsWith("emfprofile_diagram");
+    }
+
+    private static <T extends EObject> Collection<T> filterProfileElements(Collection<T> collection) {
+        return collection.stream()
+            .filter(o -> !belongsToProfile(o))
+            .collect(Collectors.toList());
     }
 
 }
