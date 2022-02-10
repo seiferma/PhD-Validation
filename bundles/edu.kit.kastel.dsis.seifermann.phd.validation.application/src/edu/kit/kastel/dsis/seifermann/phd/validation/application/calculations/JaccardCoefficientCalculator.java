@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,6 +16,7 @@ import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.DifferenceKind;
 import org.eclipse.emf.compare.DifferenceSource;
 import org.eclipse.emf.compare.EMFCompare;
+import org.eclipse.emf.compare.MatchResource;
 import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.compare.match.DefaultComparisonFactory;
 import org.eclipse.emf.compare.match.DefaultEqualityHelperFactory;
@@ -30,6 +31,7 @@ import org.eclipse.emf.compare.util.CompareSwitch;
 import org.eclipse.emf.compare.utils.UseIdentifiers;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import com.google.common.collect.Sets;
@@ -42,9 +44,12 @@ public class JaccardCoefficientCalculator {
         private final long amountOfElements;
 
         public JaccardCoefficientRaw(Long amountOfElements, final Map<String, Long> changedElementsByType) {
-            var changedElementsByTypeSorted = new TreeMap<String, Long>((k1, k2) -> changedElementsByType.get(k2)
-                .compareTo(changedElementsByType.get(k1)));
-            changedElementsByTypeSorted.putAll(changedElementsByType);
+            var changedElementsByTypeSorted = new LinkedHashMap<String, Long>();
+            changedElementsByType.entrySet()
+                .stream()
+                .sorted((e1, e2) -> e2.getValue()
+                    .compareTo(e1.getValue()))
+                .forEach(e -> changedElementsByTypeSorted.put(e.getKey(), e.getValue()));
             this.changedElementsByType = Collections.unmodifiableMap(changedElementsByTypeSorted);
             this.amountOfElements = amountOfElements;
         }
@@ -199,6 +204,17 @@ public class JaccardCoefficientCalculator {
         // identify changes
         Set<EObject> rs1Changed = new HashSet<>();
         Set<EObject> rs2Changed = new HashSet<>();
+        for (MatchResource match : comparison.getMatchedResources()) {
+            if (match.getLeft() == null && !belongsToProfile(match.getRight())) {
+                match.getRight()
+                    .getAllContents()
+                    .forEachRemaining(rs2Changed::add);
+            } else if (match.getRight() == null && !belongsToProfile(match.getLeft())) {
+                match.getLeft()
+                    .getAllContents()
+                    .forEachRemaining(rs1Changed::add);
+            }
+        }
         for (Diff diff : comparison.getDifferences()) {
             rs1Changed.addAll(changedElementsLeftFinder.doSwitch(diff));
             rs2Changed.addAll(changedElementsRightFinder.doSwitch(diff));
@@ -274,11 +290,16 @@ public class JaccardCoefficientCalculator {
             .build();
     }
 
+    private static boolean belongsToProfile(Resource resource) {
+        var uri = resource.getURI();
+        return uri.toString()
+            .startsWith("http://www.modelversioning.org/emfprofile")
+                || uri.lastSegment()
+                    .endsWith("emfprofile_diagram");
+    }
+
     private static boolean belongsToProfile(EObject eObject) {
-        return eObject != null && eObject.eResource()
-            .getURI()
-            .lastSegment()
-            .endsWith("emfprofile_diagram");
+        return eObject != null && belongsToProfile(eObject.eResource());
     }
 
     private static <T extends EObject> Collection<T> filterProfileElements(Collection<T> collection) {
