@@ -11,7 +11,7 @@ import edu.kit.kastel.dsis.seifermann.phd.validation.models.internal.PlainPCMMod
 public class ContactSMS_Plain_DF extends PlainPCMModelImpl {
 
     public ContactSMS_Plain_DF() {
-        super("ContactSMS", CommunicationParadigm.CONTROL_FLOW, "ContactSMS_DataFlow_Plain",
+        super("ContactSMS", CommunicationParadigm.DATA_FLOW, "ContactSMS_DataFlow_Plain",
                 "newUsageModel.usagemodel", "newAllocation.allocation");
     }
 
