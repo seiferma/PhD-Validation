@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<repository:Repository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:composition="http://palladiosimulator.org/PalladioComponentModel/Core/Composition/5.2" xmlns:repository="http://palladiosimulator.org/PalladioComponentModel/Repository/5.2" xmlns:repository_1="http://palladiosimulator.org/dataflow/confidentiality/pcm/0.1.0/repository" xmlns:seff="http://palladiosimulator.org/PalladioComponentModel/SEFF/5.2" xmlns:stoex="http://sdq.ipd.uka.de/StochasticExpressions/2.2" id="_X7pyYDoZEeujr6PSMKhjng" entityName="New Repository">
+<repository:Repository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:composition="http://palladiosimulator.org/PalladioComponentModel/Core/Composition/5.2" xmlns:repository="http://palladiosimulator.org/PalladioComponentModel/Repository/5.2" xmlns:seff="http://palladiosimulator.org/PalladioComponentModel/SEFF/5.2" xmlns:stoex="http://sdq.ipd.uka.de/StochasticExpressions/2.2" id="_X7pyYDoZEeujr6PSMKhjng" entityName="New Repository">
   <components__Repository xsi:type="repository:BasicComponent" id="_NJgXEDocEeujr6PSMKhjng" entityName="DistanceTracker.Logic">
     <providedRoles_InterfaceProvidingEntity xsi:type="repository:OperationProvidedRole" id="_U9nMkDocEeujr6PSMKhjng" entityName="DistanceTrackerLogic.provided.DistanceTracker" providedInterface__OperationProvidedRole="_lQGD8DoZEeujr6PSMKhjng"/>
     <requiredRoles_InterfaceRequiringEntity xsi:type="repository:OperationRequiredRole" id="_cU140DocEeujr6PSMKhjng" entityName="DistanceTrackerLogic.required.TrackingService" requiredInterface__OperationRequiredRole="_NKjVYDobEeujr6PSMKhjng"/>
@@ -79,7 +79,7 @@
     <connectors__ComposedStructure xsi:type="composition:ProvidedDelegationConnector" id="_kDme0DodEeujr6PSMKhjng" entityName="newProvidedDelegationConnector" innerProvidedRole_ProvidedDelegationConnector="_Ym1WADocEeujr6PSMKhjng" outerProvidedRole_ProvidedDelegationConnector="_XEk5EDocEeujr6PSMKhjng" assemblyContext_ProvidedDelegationConnector="_fHMPMDodEeujr6PSMKhjng"/>
     <providedRoles_InterfaceProvidingEntity xsi:type="repository:OperationProvidedRole" id="_XEk5EDocEeujr6PSMKhjng" entityName="TrackingService.provided.TrackingService" providedInterface__OperationProvidedRole="_NKjVYDobEeujr6PSMKhjng"/>
   </components__Repository>
-  <components__Repository xsi:type="repository_1:OperationalDataStoreComponent" id="_nAm3_jocEeujr6PSMKhjng" entityName="TrackingService.DistanceDB">
+  <components__Repository xsi:type="repository:BasicComponent" id="_nAm3_jocEeujr6PSMKhjng" entityName="TrackingService.DistanceDB">
     <providedRoles_InterfaceProvidingEntity xsi:type="repository:OperationProvidedRole" id="_BxKwYDodEeujr6PSMKhjng" entityName="TrackingService.provided.DistanceDB.DistanceStorage" providedInterface__OperationProvidedRole="_fOJBMDocEeujr6PSMKhjng"/>
     <serviceEffectSpecifications__BasicComponent xsi:type="seff:ResourceDemandingSEFF" id="_NgSC4DodEeujr6PSMKhjng" describedService__SEFF="_gmukwDocEeujr6PSMKhjng">
       <steps_Behaviour xsi:type="seff:StartAction" id="_NwLgEDodEeujr6PSMKhjng" successor_AbstractAction="_NwMHIDodEeujr6PSMKhjng"/>
@@ -90,7 +90,7 @@
       <steps_Behaviour xsi:type="seff:StopAction" id="_ORigsDodEeujr6PSMKhjng" predecessor_AbstractAction="_ORh5oDodEeujr6PSMKhjng"/>
     </serviceEffectSpecifications__BasicComponent>
   </components__Repository>
-  <components__Repository xsi:type="repository_1:OperationalDataStoreComponent" id="_tMEUrjocEeujr6PSMKhjng" entityName="DistanceTracker.LocationDB">
+  <components__Repository xsi:type="repository:BasicComponent" id="_tMEUrjocEeujr6PSMKhjng" entityName="DistanceTracker.LocationDB">
     <providedRoles_InterfaceProvidingEntity xsi:type="repository:OperationProvidedRole" id="_AOIQUDodEeujr6PSMKhjng" entityName="DistanceTracker.provided.LocationDB.LocationStorage" providedInterface__OperationProvidedRole="_0-kAkDocEeujr6PSMKhjng"/>
     <serviceEffectSpecifications__BasicComponent xsi:type="seff:ResourceDemandingSEFF" id="_OmNJIDodEeujr6PSMKhjng" describedService__SEFF="_2Ru4oDocEeujr6PSMKhjng">
       <steps_Behaviour xsi:type="seff:StartAction" id="_O3fGYDodEeujr6PSMKhjng" successor_AbstractAction="_O3fGYTodEeujr6PSMKhjng"/>

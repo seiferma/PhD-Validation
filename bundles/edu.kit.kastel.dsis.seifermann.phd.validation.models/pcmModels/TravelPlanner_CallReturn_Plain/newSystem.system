@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<system:System xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:composition="http://palladiosimulator.org/PalladioComponentModel/Core/Composition/5.2" xmlns:repository="http://palladiosimulator.org/PalladioComponentModel/Repository/5.2" xmlns:repository_1="http://palladiosimulator.org/dataflow/confidentiality/pcm/0.1.0/repository" xmlns:system="http://palladiosimulator.org/PalladioComponentModel/System/5.2" id="_4EGE0DlxEeunY9-OetIYyA" entityName="New System">
+<system:System xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:composition="http://palladiosimulator.org/PalladioComponentModel/Core/Composition/5.2" xmlns:repository="http://palladiosimulator.org/PalladioComponentModel/Repository/5.2" xmlns:system="http://palladiosimulator.org/PalladioComponentModel/System/5.2" id="_4EGE0DlxEeunY9-OetIYyA" entityName="New System">
   <assemblyContexts__ComposedStructure id="_-OApYDlxEeunY9-OetIYyA" entityName="Assembly_Airline">
     <encapsulatedComponent__AssemblyContext xsi:type="repository:CompositeComponent" href="newRepository.repository#_Y7_EsDluEeunY9-OetIYyA"/>
   </assemblyContexts__ComposedStructure>
@@ -10,7 +10,7 @@
     <encapsulatedComponent__AssemblyContext xsi:type="repository:CompositeComponent" href="newRepository.repository#_8vLJUDlwEeunY9-OetIYyA"/>
   </assemblyContexts__ComposedStructure>
   <assemblyContexts__ComposedStructure id="__zCGcDlxEeunY9-OetIYyA" entityName="Assembly_CreditCardCenter">
-    <encapsulatedComponent__AssemblyContext xsi:type="repository_1:OperationalDataStoreComponent" href="newRepository.repository#_n2qM4DlxEeunY9-OetIYyA"/>
+    <encapsulatedComponent__AssemblyContext xsi:type="repository:BasicComponent" href="newRepository.repository#_n2qM4DlxEeunY9-OetIYyA"/>
   </assemblyContexts__ComposedStructure>
   <connectors__ComposedStructure xsi:type="composition:ProvidedDelegationConnector" id="_HGhiMDlyEeunY9-OetIYyA" entityName="newProvidedDelegationConnector" outerProvidedRole_ProvidedDelegationConnector="_6OgG4DlxEeunY9-OetIYyA" assemblyContext_ProvidedDelegationConnector="__MayYDlxEeunY9-OetIYyA">
     <innerProvidedRole_ProvidedDelegationConnector href="newRepository.repository#__FhVoDlwEeunY9-OetIYyA"/>

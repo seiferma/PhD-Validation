@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
-<repository:Repository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:composition="http://palladiosimulator.org/PalladioComponentModel/Core/Composition/5.2" xmlns:repository="http://palladiosimulator.org/PalladioComponentModel/Repository/5.2" xmlns:repository_1="http://palladiosimulator.org/dataflow/confidentiality/pcm/0.1.0/repository" xmlns:seff="http://palladiosimulator.org/PalladioComponentModel/SEFF/5.2" xmlns:stoex="http://sdq.ipd.uka.de/StochasticExpressions/2.2" id="_uAqqUDlsEeunY9-OetIYyA" entityName="New Repository">
-  <components__Repository xsi:type="repository_1:OperationalDataStoreComponent" id="_N-cZEDluEeunY9-OetIYyA" entityName="FlightDB">
+<repository:Repository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:composition="http://palladiosimulator.org/PalladioComponentModel/Core/Composition/5.2" xmlns:repository="http://palladiosimulator.org/PalladioComponentModel/Repository/5.2" xmlns:seff="http://palladiosimulator.org/PalladioComponentModel/SEFF/5.2" xmlns:stoex="http://sdq.ipd.uka.de/StochasticExpressions/2.2" id="_uAqqUDlsEeunY9-OetIYyA" entityName="New Repository">
+  <components__Repository xsi:type="repository:BasicComponent" id="_N-cZEDluEeunY9-OetIYyA" entityName="FlightDB">
     <providedRoles_InterfaceProvidingEntity xsi:type="repository:OperationProvidedRole" id="_TOSiEDluEeunY9-OetIYyA" entityName="FlightDB.provided.FlightStorage" providedInterface__OperationProvidedRole="_NJE3UDluEeunY9-OetIYyA"/>
     <serviceEffectSpecifications__BasicComponent xsi:type="seff:ResourceDemandingSEFF" id="_TOvOADluEeunY9-OetIYyA" describedService__SEFF="_O5GqgDluEeunY9-OetIYyA">
       <steps_Behaviour xsi:type="seff:StartAction" id="_TOvOATluEeunY9-OetIYyA" successor_AbstractAction="_TOvOAjluEeunY9-OetIYyA"/>
@@ -79,7 +79,7 @@
     <providedRoles_InterfaceProvidingEntity xsi:type="repository:OperationProvidedRole" id="_SyPCwDlvEeunY9-OetIYyA" entityName="Airline.provided.FindflightsByQuery" providedInterface__OperationProvidedRole="_FNymUDlvEeunY9-OetIYyA"/>
     <requiredRoles_InterfaceRequiringEntity xsi:type="repository:OperationRequiredRole" id="_dNo1MDlwEeunY9-OetIYyA" entityName="Airline.required.ComissionReceiver" requiredInterface__OperationRequiredRole="_cpv6cDlvEeunY9-OetIYyA"/>
   </components__Repository>
-  <components__Repository xsi:type="repository_1:OperationalDataStoreComponent" id="_idTNcDlvEeunY9-OetIYyA" entityName="CommissionDB">
+  <components__Repository xsi:type="repository:BasicComponent" id="_idTNcDlvEeunY9-OetIYyA" entityName="CommissionDB">
     <providedRoles_InterfaceProvidingEntity xsi:type="repository:OperationProvidedRole" id="_3DX5kDlvEeunY9-OetIYyA" entityName="CommissionDB.provided.ComissionStore" providedInterface__OperationProvidedRole="_wrubADlvEeunY9-OetIYyA"/>
     <serviceEffectSpecifications__BasicComponent xsi:type="seff:ResourceDemandingSEFF" id="_3DZHsDlvEeunY9-OetIYyA" describedService__SEFF="_xs91kDlvEeunY9-OetIYyA">
       <steps_Behaviour xsi:type="seff:StartAction" id="_3DZHsTlvEeunY9-OetIYyA" successor_AbstractAction="_3DZHsjlvEeunY9-OetIYyA"/>
@@ -192,7 +192,7 @@
     <requiredRoles_InterfaceRequiringEntity xsi:type="repository:OperationRequiredRole" id="_HyJukDlxEeunY9-OetIYyA" entityName="TravelPlanner.required.FindFlightsByCriteria" requiredInterface__OperationRequiredRole="__aE7QDluEeunY9-OetIYyA"/>
     <requiredRoles_InterfaceRequiringEntity xsi:type="repository:OperationRequiredRole" id="_LO5iQDlxEeunY9-OetIYyA" entityName="TravelPlanner.required.FlightBooking" requiredInterface__OperationRequiredRole="_4RsjUDluEeunY9-OetIYyA"/>
   </components__Repository>
-  <components__Repository xsi:type="repository_1:OperationalDataStoreComponent" id="_n2qM4DlxEeunY9-OetIYyA" entityName="CreditCardCenter">
+  <components__Repository xsi:type="repository:BasicComponent" id="_n2qM4DlxEeunY9-OetIYyA" entityName="CreditCardCenter">
     <providedRoles_InterfaceProvidingEntity xsi:type="repository:OperationProvidedRole" id="_1oK08DlxEeunY9-OetIYyA" entityName="CreditCardCenter.provided.CreditCardCenter" providedInterface__OperationProvidedRole="_y9slADlsEeunY9-OetIYyA"/>
     <serviceEffectSpecifications__BasicComponent xsi:type="seff:ResourceDemandingSEFF" id="_bA4W0Dl9EeunY9-OetIYyA" describedService__SEFF="_fJvc4DltEeunY9-OetIYyA">
       <steps_Behaviour xsi:type="seff:StartAction" id="_bX5vsDl9EeunY9-OetIYyA" successor_AbstractAction="_bX5vsTl9EeunY9-OetIYyA"/>
@@ -203,7 +203,7 @@
       <steps_Behaviour xsi:type="seff:StopAction" id="_b90gMTl9EeunY9-OetIYyA" predecessor_AbstractAction="_b90gMDl9EeunY9-OetIYyA"/>
     </serviceEffectSpecifications__BasicComponent>
   </components__Repository>
-  <components__Repository xsi:type="repository_1:OperationalDataStoreComponent" id="_t5tFvjl3EeunY9-OetIYyA" entityName="BookingStorage">
+  <components__Repository xsi:type="repository:BasicComponent" id="_t5tFvjl3EeunY9-OetIYyA" entityName="BookingStorage">
     <providedRoles_InterfaceProvidingEntity xsi:type="repository:OperationProvidedRole" id="_9wyTIDl3EeunY9-OetIYyA" entityName="BookingStorage.provided.BookingStorage" providedInterface__OperationProvidedRole="_i__KIDl3EeunY9-OetIYyA"/>
     <serviceEffectSpecifications__BasicComponent xsi:type="seff:ResourceDemandingSEFF" id="__jEwIDl3EeunY9-OetIYyA" describedService__SEFF="_paPQwDl3EeunY9-OetIYyA">
       <steps_Behaviour xsi:type="seff:StartAction" id="__z7PkDl3EeunY9-OetIYyA" successor_AbstractAction="__z7PkTl3EeunY9-OetIYyA"/>

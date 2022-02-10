@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
-<repository:Repository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:repository="http://palladiosimulator.org/PalladioComponentModel/Repository/5.2" xmlns:repository_1="http://palladiosimulator.org/dataflow/confidentiality/pcm/0.1.0/repository" xmlns:seff="http://palladiosimulator.org/PalladioComponentModel/SEFF/5.2" xmlns:stoex="http://sdq.ipd.uka.de/StochasticExpressions/2.2" id="_yvfW0IM4EeydpeNEy1O9cA" entityName="New Repository">
-  <components__Repository xsi:type="repository_1:OperationalDataStoreComponent" id="_0Qz4QIM7EeydpeNEy1O9cA" entityName="ContactDB">
+<repository:Repository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:repository="http://palladiosimulator.org/PalladioComponentModel/Repository/5.2" xmlns:seff="http://palladiosimulator.org/PalladioComponentModel/SEFF/5.2" xmlns:stoex="http://sdq.ipd.uka.de/StochasticExpressions/2.2" id="_yvfW0IM4EeydpeNEy1O9cA" entityName="New Repository">
+  <components__Repository xsi:type="repository:BasicComponent" id="_0Qz4QIM7EeydpeNEy1O9cA" entityName="ContactDB">
     <providedRoles_InterfaceProvidingEntity xsi:type="repository:OperationProvidedRole" id="_6Pe2IIM7EeydpeNEy1O9cA" entityName="ContactDB.provided.ContactDB" providedInterface__OperationProvidedRole="_1i05wIM7EeydpeNEy1O9cA"/>
     <serviceEffectSpecifications__BasicComponent xsi:type="seff:ResourceDemandingSEFF" id="_cVnN8IM8EeydpeNEy1O9cA" describedService__SEFF="_2U2zoIM7EeydpeNEy1O9cA">
       <steps_Behaviour xsi:type="seff:StartAction" id="_cnBHAIM8EeydpeNEy1O9cA" successor_AbstractAction="_cnBuEIM8EeydpeNEy1O9cA"/>
