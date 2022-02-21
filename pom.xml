@@ -39,9 +39,9 @@
 					<url>https://updatesite.palladio-simulator.com/fluidtrust/fluidtrust-build-updatesite/nightly/</url>
 				</repository>
 				<repository>
-					<id>mdsd.tools</id>
+					<id>standalone-initializer</id>
 					<layout>p2</layout>
-					<url>https://updatesite.mdsd.tools/build-updatesite/nightly/</url>
+					<url>https://updatesite.mdsd.tools/library-standaloneinitialization/nightly/</url>
 				</repository>
 				<repository>
 					<id>eclipse-2021-12</id>
@@ -67,25 +67,25 @@
 				<repository>
 					<id>pcm-latest</id>
 					<layout>p2</layout>
-					<url>https://updatesite.palladio-simulator.com/palladio-build-updatesite/releases/latest</url>
+					<url>https://updatesite.palladio-simulator.com/palladio-build-updatesite/releases/5.1.0</url>
 				</repository>
 				<repository>
 					<id>fluidtrust</id>
 					<layout>p2</layout>
-					<url>https://updatesite.palladio-simulator.com/fluidtrust/fluidtrust-build-updatesite/releases/latest/</url>
+					<url>https://updatesite.palladio-simulator.com/fluidtrust/fluidtrust-build-updatesite/releases/5.1.0/</url>
 				</repository>
 				<repository>
-					<id>mdsd.tools</id>
+					<id>standalone-initializer</id>
 					<layout>p2</layout>
-					<url>https://updatesite.mdsd.tools/build-updatesite/releases/latest/</url>
+					<url>https://updatesite.mdsd.tools/library-standaloneinitialization/releases/0.3.0/</url>
 				</repository>
 				<repository>
-					<id>eclipse-2021-09</id>
+					<id>eclipse-2021-12</id>
 					<layout>p2</layout>
 					<url>https://download.eclipse.org/releases/2021-12/</url>
 				</repository>
 				<repository>
-					<id>orbit-2021-09</id>
+					<id>orbit-2021-12</id>
 					<layout>p2</layout>
 					<url>https://download.eclipse.org/tools/orbit/downloads/2021-12/</url>
 				</repository>
