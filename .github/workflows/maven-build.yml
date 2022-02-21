@@ -30,8 +30,8 @@ jobs:
         cache: 'maven'
         
     - name: Build using maven and nightly versions
-      if: ${{ !github.event.inputs.releaseBuild }}
+      if: ${{ github.event.inputs.releaseBuild != 'true' }}
       run: mvn clean verify
     - name: Build using maven and release versions
-      if: ${{ github.event.inputs.releaseBuild }}
+      if: ${{ github.event.inputs.releaseBuild == 'true' }}
       run: mvn clean verify -Drelease
