@@ -5,6 +5,13 @@ on:
     branches: '*'
   pull_request:
     branches: '*'
+  workflow_dispatch:
+    inputs:
+      releaseBuild:
+        description: 'Release build'     
+        required: true
+        default: 'false'
+        type: boolean
 
 jobs:
 
@@ -22,5 +29,9 @@ jobs:
         distribution: 'temurin'
         cache: 'maven'
         
-    - name: Build using maven
+    - name: Build using maven and nightly versions
+      if: ${{ !github.event.inputs.releaseBuild }}
       run: mvn clean verify
+    - name: Build using maven and release versions
+      if: ${{ github.event.inputs.releaseBuild }}
+      run: mvn clean verify -Drelease
