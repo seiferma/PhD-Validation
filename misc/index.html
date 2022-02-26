@@ -30,6 +30,12 @@
       The <a href="./code/PhD-Validation">source code</a> of the validation application is also available in this data set.
       You can also compile the application from these sources or explore the source code in a <a href="#devenv">development environment</a>.
     </p>
+    <p>
+      When exploring the source code, the most important location is the <a href="./code/PhD-Validation/bundles/edu.kit.kastel.dsis.seifermann.phd.validation.application/src/edu/kit/kastel/dsis/seifermann/phd/validation/application/workflow">definition of the validation workflows</a>.
+      There is one workflow for each contribution to be validated.
+      The <code>execute</code> method contains the instructions for the validation.
+      By following the method calls, you can recognize the validation procedure and check the rules for calculating the metrics.
+    </p>
     <h2>Most important code locations</h2>
     <h3>Mappings between Models</h3>
     <p>
@@ -49,6 +55,12 @@
       The confidentiality requirements for the case study systems are available as <a href="./code/PhD-Validation/bundles/edu.kit.kastel.dsis.seifermann.phd.validation.models/pcmModels/">queries and additional Prolog clauses</a> (see files with extension &quot;.pl&quot;).
       The classification of violations for every case study system is encoded in Java within <a href="./code/PhD-Validation/bundles/edu.kit.kastel.dsis.seifermann.phd.validation.models/src/edu/kit/kastel/dsis/seifermann/phd/validation/models/internal/models/pcm/">the classes for the case study systems</a>.
       Please have a look at the implementations of the method <code>isAcceptableViolation</code> for details on the classification.
+    </p>
+    <h3>Automation of Analyses</h3>
+    <p>
+      The analysis execution for DFDs as well as Palladio is fully automated.
+      A good entry point for checking the automated steps for DFDs is the class <a href="./code/PhD-Validation/bundles/edu.kit.kastel.dsis.seifermann.phd.validation.application/src/edu/kit/kastel/dsis/seifermann/phd/validation/application/workflow/jobs/RunDFDAnalysisJob.java">RunDFDAnalysisJob</a>.
+      A good entry point for checking the automated steps for Palladio is the class <a href="./code/PhD-Validation/bundles/edu.kit.kastel.dsis.seifermann.phd.validation.application/src/edu/kit/kastel/dsis/seifermann/phd/validation/application/workflow/jobs/RunPCMAnalysisJob.java">RunPCMAnalysisJob</a>.
     </p>
     <h2>Structure of Prototype</h2>
     <p>
