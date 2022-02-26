@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <title>Data Set</title>
+      <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>Data Set: Architectural Data Flow Analysis for Detecting Violations of Confidentiality Requirements</h1>
+    <h2>Validation Results</h2>
+    <p>The validation results including the raw data is available in JSON.</p>
+    <p>
+      <ul>
+        <li><a href="results/vg1.json">Results for VG1</a></li>
+        <li><a href="results/vg2.json">Results for VG2</a></li>
+        <li><a href="results/vg3.json">Results for VG3</a></li>
+        <li><a href="results/vg4.json">Results for VG4</a></li>
+      </ul>
+    </p>
+    <h2>Reproduction of Validation Results</h2>
+    <p>
+      The generation of the validation results mentioned above is fully automated.
+      You only have to execute the validation application to produce the results.
+      Please adhere to the following steps for producing the results:
+      <ol>
+        <li>Precondition: Docker or Podman is installed</li>
+        <li>Import <a href="./reproduction/validationApplicationDockerImage.tar">docker image</a> via <code>docker image load -i validationApplicationDockerImage.tar</code></li>
+        <li>Run the application via <code>docker run --rm -v /tmp/hostFolder:/tmp/results:Z validation</code> but replace <code>/tmp/hostFolder</code> with the folder on your system that shall contain the validation results</li>
+      </ol>
+      The <a href="./code/PhD-Validation">source code</a> of the validation application is also available in this data set.
+      You can also compile the application from these sources or explore the source code in a <a href="#devenv">development environment</a>.
+    </p>
+    <h2>Most important code locations</h2>
+    <h3>Mappings between Models</h3>
+    <p>
+      All mappings described in the thesis are implemented as model-to-model transformations.
+      The <a href="./code/Palladio-Supporting-DataFlowDiagramConfidentiality/bundles/org.palladiosimulator.dataflow.confidentiality.transformation.prolog/src/org/palladiosimulator/dataflow/confidentiality/transformation/prolog/impl/DFD2PrologTransformationImpl.xtend">transformation from DFD to Prolog</a> as well as the <a href="./code/Palladio-Addons-DataFlowConfidentiality/bundles/org.palladiosimulator.dataflow.confidentiality.pcm.transformation/src/org/palladiosimulator/dataflow/confidentiality/pcm/transformation/pcm2dfd/impl/PcmToDfdTransformationImplementation.xtend">transformation from Palladio to DFD</a> are implemented in Xtend.
+    </p>
+    <h3>DFD Models</h3>
+    <p>
+      The data flow diagrams of the case study systems are available as <a href="./code/PhD-Validation/bundles/edu.kit.kastel.dsis.seifermann.phd.validation.models/dfdModels/">model files</a> (see files with extension &quot;.xmi&quot;).
+      The confidentiality requirements for the case study systems are available as <a href="./code/PhD-Validation/bundles/edu.kit.kastel.dsis.seifermann.phd.validation.models/dfdModels/">queries and additional Prolog clauses</a> (see files with extension &quot;.pl&quot;).
+      The classification of violations for every case study system is encoded in Java within <a href="./code/PhD-Validation/bundles/edu.kit.kastel.dsis.seifermann.phd.validation.models/src/edu/kit/kastel/dsis/seifermann/phd/validation/models/internal/models/dfd/">the classes for the case study systems</a>.
+      Please have a look at the implementations of the method <code>isAcceptableViolation</code> for details on the classification.
+    </p>
+    <h3>PCM Models</h3>
+    <p>
+      The Palladio models of the case study systems are available as <a href="./code/PhD-Validation/bundles/edu.kit.kastel.dsis.seifermann.phd.validation.models/pcmModels/">model files</a> (see files with extensions &quot;.xmi&quot;, &quot;.usagemodel&quot;, &quot;.repository&quot;, &quot;.system&quot;, &quot;.allocation&quot;, &quot;.resourceenvironment&quot;, &quot;.characteristics&quot;).
+      The confidentiality requirements for the case study systems are available as <a href="./code/PhD-Validation/bundles/edu.kit.kastel.dsis.seifermann.phd.validation.models/pcmModels/">queries and additional Prolog clauses</a> (see files with extension &quot;.pl&quot;).
+      The classification of violations for every case study system is encoded in Java within <a href="./code/PhD-Validation/bundles/edu.kit.kastel.dsis.seifermann.phd.validation.models/src/edu/kit/kastel/dsis/seifermann/phd/validation/models/internal/models/pcm/">the classes for the case study systems</a>.
+      Please have a look at the implementations of the method <code>isAcceptableViolation</code> for details on the classification.
+    </p>
+    <h2>Structure of Prototype</h2>
+    <p>
+      We implemented the concepts presented in our thesis as Eclipse-based extensions.
+      We structured the prototype into multiple projects.
+      <ul>
+        <li>Prolog Printer/Parser (<a href="https://github.com/FluidTrust/Palladio-Supporting-Prolog/tree/releases/5.1.0">Github</a> | <a href="https://archive.softwareheritage.org/swh:1:rev:1b69572a18fe82d70e6ac3fd598a9959250af82b;origin=https://github.com/FluidTrust/Palladio-Supporting-Prolog;visit=swh:1:snp:bc44a1bd1740e31fa56c1e06b5a115849e592cbb">Software Heritage</a> | <a href="./code/Palladio-Supporting-Prolog">Archived Copy</a>)</li>
+        <li>Prolog Java Interface (<a href="https://github.com/FluidTrust/Palladio-Supporting-Prolog4J/tree/releases/1.2.0">Github</a> | <a href="https://archive.softwareheritage.org/swh:1:rev:c605fe891271ebaad7cfc470715e112313d3b532;origin=https://github.com/FluidTrust/Palladio-Supporting-Prolog4J;visit=swh:1:snp:a71f82480f7b01f91f65d735a0d6e13beb9a147f">Software Heritage</a> | <a href="./code/Palladio-Supporting-Prolog4J">Archived Copy</a>)</li>
+        <li>Data Flow Diagram Metamodel (<a href="https://github.com/FluidTrust/Palladio-Supporting-DataFlowDiagram">Github</a> | <a href="https://archive.softwareheritage.org/swh:1:rev:89a1a4bad41f6844d6bb2147e9f059c4cb9196fe;origin=https://github.com/FluidTrust/Palladio-Supporting-DataFlowDiagram;visit=swh:1:snp:efad96952c8cb53457fe3ded46c38210cbe026b9">Software Heritage</a> | <a href="./code/Palladio-Supporting-DataFlowDiagram">Archived Copy</a>)</li>
+        <li>Extended Data Flow Diagram Syntax And Semantics (<a href="https://github.com/FluidTrust/Palladio-Supporting-DataFlowDiagramConfidentiality/tree/releases/5.1.0">Github</a> | <a href="https://archive.softwareheritage.org/swh:1:rev:990be3ffb896762a7d88f6b6f806119c78857e7e;origin=https://github.com/FluidTrust/Palladio-Supporting-DataFlowDiagramConfidentiality;visit=swh:1:snp:eaadb2b2a494d5668b683ccc71807e8ec1be7b83">Software Heritage</a> | <a href="./code/Palladio-Supporting-DataFlowDiagramConfidentiality">Archived Copy</a>)</li>
+        <li>DSL for Custom DFD Analyses (<a href="https://github.com/FluidTrust/Palladio-Supporting-DataFlowConfidentialityQueryDSL/tree/releases/5.1.0">Github</a> | <a href="https://archive.softwareheritage.org/swh:1:rev:0ac66f5243832938da1adece1ca893b187eda211;origin=https://github.com/FluidTrust/Palladio-Supporting-DataFlowConfidentialityQueryDSL;visit=swh:1:snp:79ad955d75d39942fe3db2e13c0db87299d34cf1">Software Heritage</a> | <a href="./code/Palladio-Supporting-DataFlowConfidentialityQueryDSL">Archived Copy</a>)</li>
+        <li>Extended Palladio Metamodel and Mapping to DFD (<a href="https://github.com/FluidTrust/Palladio-Addons-DataFlowConfidentiality/tree/releases/5.1.0">Github</a> | <a href="https://archive.softwareheritage.org/swh:1:rev:0b6a31d3b6421cb1f81aa547187992b65bc2c1ad;origin=https://github.com/FluidTrust/Palladio-Addons-DataFlowConfidentiality;visit=swh:1:snp:a464cc1c098336d15f556432a7d9f909e5842f48">Software Heritage</a> | <a href="./code/Palladio-Addons-DataFlowConfidentiality">Archived Copy</a>)</li>
+        <li>DSL for Custom Palladio Analyses (<a href="https://github.com/FluidTrust/Palladio-Addons-DataFlowConfidentialityQueryDSL/tree/releases/5.1.0">Github</a> | <a href="https://archive.softwareheritage.org/swh:1:rev:2e3055f2bc0b4686548316dffdebd8d648ce4f29;origin=https://github.com/FluidTrust/Palladio-Addons-DataFlowConfidentialityQueryDSL;visit=swh:1:snp:75096a9b096184bd6d98e6985c168976f6b370e5">Software Heritage</a> | <a href="./code/Palladio-Addons-DataFlowConfidentialityQueryDSL">Archived Copy</a>)</li>
+      </ul>
+    </p>
+    <h2><a id="devenv"></a>Setup Development Environment</h2>
+    <p>
+      If you would like to take a deeper look into the prototype, it is useful to setup the development environment.
+      Please follow the steps below to do so.
+      <ol>
+        <li>Precondition: Java 11 and recent Maven version installed</li>
+        <li>Download <a href="https://www.eclipse.org/downloads/packages/release/2021-12/r/eclipse-modeling-tools">Eclipse Modeling Tools 2021-12</a></li>
+        <li>Extract and run Eclipse</li>
+        <li>
+          Install dependencies
+          <ol>
+            <li>Open Installation Dialog via File - Import - Install - Install Software Items from File</li>
+            <li>Select <a href="./code/eclipse-setup.p2f">setup file</a></li>
+            <li>Check &quot;Contact all update sites during install to find required software&quot;</li>
+            <li>Click next and accept licenses and certificates until installation is finished</li>
+          </ol>
+        </li>
+        <li>Run Maven build in project of interest (e.g. <code>mvn clean verify</code>) to generate required source files</li>
+        <li>Import project of interest via File - Import - General - Existing Projects into Workspace</li>
+      </ol>
+    </p>
+    <h2>Additional Pointers</h2>
+    <p>
+      This data set is not the first one that presents the case study systems or the prototypical implementation.
+      We would like to point interested readers to the following additional information:
+      <ul>
+        <li><a href="https://fluidtrust.github.io/tutorial-ecsa2021/material/">ECSA tutorial</a> demonstrating the control flow integration for Palladio including a manual, slides and a ready-to-use Eclipse application with demo models</li>
+        <li><a href="https://doi.org/10.5281/zenodo.5535599">Data set of JSS publication</a> containing visualizations of many case study systems also used in this validation (DFDs)</li>
+        <li><a href="https://doi.org/10.5281/zenodo.4699417">Data set of SECRYPT publication</a> containing visualizations of many case study systems also used in this validation (Palladio)</li>
+      </ul>
+    </p>
+  </body>
+</html>
