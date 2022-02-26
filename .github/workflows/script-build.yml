@@ -24,4 +24,4 @@ jobs:
         cache: 'maven'
         
     - name: Build
-      run: ./build
+      run: ./build.sh
